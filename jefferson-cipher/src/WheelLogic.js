@@ -1,8 +1,8 @@
-const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
 
 
 const getUnencryptedIndex = (num_char) => {
-    return Math.floor(Math.random() * (num_char-1));
+    return Math.floor(Math.random() * (num_char));
     // console.log()
 }
 
@@ -45,35 +45,50 @@ const randomFill = (currChar, unencryptedIndex) => {
     return wheel;
 }
 
-const randomWheelOrder = (length) => {
-    let order = [];
+const randomWheelCombo = (length) => {
+    let combo = [];
 
     for (let i = 0; i < length; i++) {
-        order.push(i);
+        combo.push(i);
     }
 
-    order = shuffle(order);
+    return shuffle(combo);
 
-    return order;
 }
 
 
 export const randomGenerateWheelSet = (unencrypted) => {
     // console.log(`The unencrypted value is: ${unencrypted}`);
+    let messageLength = unencrypted.length;
 
     let wheelSet = [];
 
-    let unencryptedIndex = getUnencryptedIndex(26);
+    let unencryptedIndex = getUnencryptedIndex(37);
 
-    for (let i = 0; i < unencrypted.length; i++){
-        let wheel = randomFill(unencrypted[i], unencryptedIndex);
+    let unencryptedCombo = randomWheelCombo(messageLength);
+
+    for (let i = 0; i < messageLength; i++){
+        let wheel = {
+            order: randomFill(unencrypted[i], unencryptedIndex),
+            id: unencryptedCombo[i],
+        };
         wheelSet.push(wheel);
     }
     
     console.log("Wheel Set is: ");
     console.log(wheelSet);
     
-    let worder = randomWheelOrder(unencrypted.length);
-    console.log(`Random Wheel Order: ${worder}`)
-}
+    let deliveryCombo = randomWheelCombo(messageLength);
+    while (JSON.stringify(deliveryCombo) === JSON.stringify(unencryptedCombo)){
+        deliveryCombo = randomWheelCombo(messageLength);
+    }
 
+    console.log(`Unencrypted Combo: ${unencryptedCombo}`);
+    console.log(`Delivery Combo: ${deliveryCombo}`);
+
+    return {
+        wheelSet: wheelSet,
+        unencryptedCombo: unencryptedCombo,
+        deliveryCombo: deliveryCombo,
+    }
+}
