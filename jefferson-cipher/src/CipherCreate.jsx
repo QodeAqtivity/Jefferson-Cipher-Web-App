@@ -1,4 +1,5 @@
 import { useState } from 'react'; 
+import { randomGenerateWheelSet } from './WheelLogic'; 
 
 const CipherCreate = () => {
 
@@ -10,23 +11,11 @@ const CipherCreate = () => {
         console.log(`Current unencrypted message is: ${unencrypted}`);
     }
 
-    const randomGenerateWheelSet = () => {
-        console.log(`The unencrypted value is: ${unencrypted}`);
-
-        let wheel_set = [];
-
-        let message_index = Math.floor(Math.random() * 25); //26 letters but 25 index
-
-        for (let i = 0; i < unencrypted.length; i++){
-
-        }
-        
-    }
 
     const clickSubmitHandler = (event) => {
         event.preventDefault();
         console.log(`Submitted unencrypted message is: ${unencrypted}`);
-        randomGenerateWheelSet()
+        randomGenerateWheelSet(unencrypted);
     }
 
 
