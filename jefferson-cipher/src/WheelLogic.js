@@ -25,7 +25,6 @@ function shuffle(array) {
     return array;
 }
 
-
 const randomFill = (currChar, unencryptedIndex) => {
     let wheel = [...ALPHANUMERICWHEEL]; //shallow copy (lodash??)
 
@@ -63,14 +62,14 @@ export const randomGenerateWheelSet = (unencrypted) => {
 
     let wheelSet = [];
 
-    let unencryptedIndex = getUnencryptedIndex(37);
+    let solutionIndex = getUnencryptedIndex(37);
 
-    let unencryptedCombo = randomWheelCombo(messageLength);
+    let solutionCombo = randomWheelCombo(messageLength);
 
     for (let i = 0; i < messageLength; i++){
         let wheel = {
-            order: randomFill(unencrypted[i], unencryptedIndex),
-            id: unencryptedCombo[i],
+            order: randomFill(unencrypted[i], solutionIndex),
+            id: solutionCombo[i],
         };
         wheelSet.push(wheel);
     }
@@ -79,22 +78,21 @@ export const randomGenerateWheelSet = (unencrypted) => {
     console.log(wheelSet);
     
     let deliveryCombo = randomWheelCombo(messageLength);
-    while (JSON.stringify(deliveryCombo) === JSON.stringify(unencryptedCombo)){
+    while (JSON.stringify(deliveryCombo) === JSON.stringify(solutionCombo)){
         deliveryCombo = randomWheelCombo(messageLength);
     }
 
-    console.log(`Unencrypted Combo: ${unencryptedCombo}`);
+    console.log(`Solution Combo: ${solutionCombo}`);
     console.log(`Delivery Combo: ${deliveryCombo}`);
-
+    
     return {
-        wheelSet: wheelSet,
-        unencryptedCombo: unencryptedCombo,
-        deliveryCombo: deliveryCombo,
+        wheelSet: JSON.stringify(wheelSet),
+        solutionCombo: solutionCombo.toString(),
+        deliveryCombo: deliveryCombo.toString(),
     }
 }
 
 export const onlyAlphaNumericAndSpaces = (unencrypted) => {
     let regex = /^[0-9A-Za-z\s]+$/;
     return regex.test(unencrypted);
-
 }
