@@ -92,3 +92,9 @@ export const randomGenerateWheelSet = (unencrypted) => {
         deliveryCombo: deliveryCombo,
     }
 }
+
+export const onlyAlphaNumericAndSpaces = (unencrypted) => {
+    let regex = /^[0-9A-Za-z\s]+$/;
+    return regex.test(unencrypted);
+
+}
