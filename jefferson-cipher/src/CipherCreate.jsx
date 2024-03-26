@@ -1,5 +1,6 @@
 import { useState } from 'react'; 
-import { onlyAlphaNumericAndSpaces, randomGenerateWheelSet } from './WheelLogic'; 
+import { randomGenerateWheelSet } from './WheelLogic'; 
+import * as regexes from './Regexes';
 
 const CipherCreate = () => {
 
@@ -21,11 +22,11 @@ const CipherCreate = () => {
         console.log(`Event object is: ${event}`);
         console.log(`Submitted unencrypted message is: ${unencrypted}`);
 
-        if ((unencrypted.length >= 2) && (onlyAlphaNumericAndSpaces(unencrypted))){
+        if ((unencrypted.length >= 2) && (regexes.opn)){
             const {wheelSet, solutionCombo, deliveryCombo} = randomGenerateWheelSet(unencrypted);
             // wSet = wheelSet;
             solCombo = solutionCombo.replaceAll(',', ' ');
-            delCombo= deliveryCombo.replaceAll(',', ' ');
+            delCombo = deliveryCombo.replaceAll(',', ' ');
             console.log(solCombo);
             console.log(delCombo);
 

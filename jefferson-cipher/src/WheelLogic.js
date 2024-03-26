@@ -1,5 +1,5 @@
-const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
-
+import * as wheelbases from './WheelBase';
+import * as regexes from './Regexes';
 
 const getUnencryptedIndex = (num_char) => {
     return Math.floor(Math.random() * (num_char));
@@ -84,7 +84,7 @@ export const randomGenerateWheelSet = (unencrypted) => {
 
     console.log(`Solution Combo: ${solutionCombo}`);
     console.log(`Delivery Combo: ${deliveryCombo}`);
-    
+
     return {
         wheelSet: JSON.stringify(wheelSet),
         solutionCombo: solutionCombo.toString(),
@@ -92,7 +92,3 @@ export const randomGenerateWheelSet = (unencrypted) => {
     }
 }
 
-export const onlyAlphaNumericAndSpaces = (unencrypted) => {
-    let regex = /^[0-9A-Za-z\s]+$/;
-    return regex.test(unencrypted);
-}
