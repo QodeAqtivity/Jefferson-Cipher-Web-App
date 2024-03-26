@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const jeffersonCipherRoutes = require('./routes/jeffersoncipher');
+const mongoose = require('mongoose');
 
 const app = express();//server / express app
 
@@ -13,9 +14,19 @@ app.use((req, res, next) => {
     next();
 });
 
+// jefferson cipher routes
 app.use('/api/jefferson-cipher', jeffersonCipherRoutes);
 
-//listen for requests
-app.listen(process.env.PORT, () => {
-    console.log(`listening on Port ${process.env.PORT}`);
-});
+// connect to mongodb
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log('Successfully connected to MongoDB Database!');
+        //listen for requests
+        app.listen(process.env.PORT, () => {
+            console.log(`Now Listening on Port ${process.env.PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+
