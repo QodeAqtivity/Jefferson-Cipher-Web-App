@@ -63,9 +63,28 @@ const deleteJeffersonCipher = async(req, res) => {
     res.status(200).json(jeffersonCipher);
 }
 
+// updating Jefferson Cipher
+const updateJeffersonCipher = async(req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such Jefferson Cipher.  Thus cannot update.'});
+    }
+
+    const jeffersonCipher = await JeffersonCipher.findOneAndUpdate({_id: id}, {...req.body});
+
+    if (!jeffersonCipher){
+        return res.status(400).json({error: 'No such Jefferson Cipher.  Thus cannot update.'});
+    }
+
+    res.status(200).json(jeffersonCipher);
+}
+
 
 module.exports = {
     getAllJeffersonCiphers,
     getJeffersonCipher,
     createJeffersonCipher,
+    deleteJeffersonCipher,
+    updateJeffersonCipher,
 };

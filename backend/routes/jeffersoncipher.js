@@ -3,6 +3,8 @@ const {
     getAllJeffersonCiphers,
     getJeffersonCipher,
     createJeffersonCipher,
+    deleteJeffersonCipher,
+    updateJeffersonCipher,
 } = require('./../controllers/jeffersonCipherController');
 const router = express.Router();
 
@@ -24,6 +26,13 @@ router.get('/create', (req, res) => {
 
 })
 
+// CREATE a single/specific Jefferson Cipher
 router.post('/create', createJeffersonCipher);
+
+// DELETE a single/specific Jefferson Cipher
+router.delete('/:id', deleteJeffersonCipher);
+
+// UPDATE a single/specific Jefferson Cipher
+router.patch('/:id', updateJeffersonCipher);
 
 module.exports = router;
