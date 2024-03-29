@@ -2,12 +2,27 @@
 // import './App.css';
 import Navbar from './Navbar';
 import CipherCreate from './CipherCreate';
+import Home from './pages/Home';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      {/* <Navbar /> */}
-      <CipherCreate />
+      <BrowserRouter>
+        <Navbar />
+        <div className="pages">
+          <Routes>
+            <Route
+              path="/" //homepage route
+              element={<Home />}  
+            />
+            <Route 
+              path="/jefferson-cipher"
+              element={<CipherCreate />}
+            />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
