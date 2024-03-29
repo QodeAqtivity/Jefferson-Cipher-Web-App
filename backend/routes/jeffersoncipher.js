@@ -1,6 +1,8 @@
 const express = require('express');
+const JeffersonCipher = require('./../models/jeffersonCipherModel');
 
 const router = express.Router();
+
 
 
 // GET all jefferson cipher
@@ -24,7 +26,17 @@ router.get('/create', (req, res) => {
 
 })
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
+    console.log('hit');
+    const {unencrypted, encrypted, solutionCombo, deliveryCombo, wheelSet} = req.body;
+
+    try {
+        const jeffersonCipher = await JeffersonCipher.create({unencrypted, encrypted, solutionCombo, deliveryCombo, wheelSet});  
+        res.status(200).json(jeffersonCipher);
+    } catch (error ) {
+        res.status(400).json({error: error.message});
+    }
+
     res.json({mssg: 'POST a single/specific jefferson cipher'});
 
 });

@@ -5,18 +5,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const jeffersonCipherSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    author: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
     unencrypted: {
         type: String,
         required: true
@@ -34,7 +22,9 @@ const jeffersonCipherSchema = new Schema({
         required: true
     },
     wheelSet: {
-        type: [String],
+        type: [[String]],
         required: true
     }
 }, { timestamps: true });
+
+module.exports = mongoose.model('Jefferson Cipher', jeffersonCipherSchema);

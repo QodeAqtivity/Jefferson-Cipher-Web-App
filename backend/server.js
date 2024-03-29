@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 const app = express();//server / express app
 
 //middleware
-// app.use(express.json); //checks to see if there is any body/data/message in request and if so, parses it and attaches it to request object
+app.use(express.json()); //checks to see if there is any body/data/message in request and if so, parses it and attaches it to request object
+
 app.use((req, res, next) => {
     console.log(`Request Path: ${req.path}`);
     console.log(`Request Method: ${req.method}`);
