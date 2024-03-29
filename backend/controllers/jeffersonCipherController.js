@@ -46,6 +46,24 @@ const createJeffersonCipher = async(req, res) => {
 
 };
 
+
+const deleteJeffersonCipher = async(req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such Jefferson Cipher. Thus cannot delete.'});
+    }
+
+    const jeffersonCipher = await JeffersonCipher.findOneAndDelete({_id: id});
+
+    if (!jeffersonCipher){
+        return res.status(400).json({error: 'No such Jefferson Cipher.  Thus cannot delete'});
+    }
+
+    res.status(200).json(jeffersonCipher);
+}
+
+
 module.exports = {
     getAllJeffersonCiphers,
     getJeffersonCipher,
