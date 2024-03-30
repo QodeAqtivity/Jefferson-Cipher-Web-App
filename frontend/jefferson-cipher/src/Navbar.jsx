@@ -8,8 +8,8 @@ const Navbar = () => {
                 <Link to="/">
                     <h1>Qoding Aqitivity Cryptic Ciphers</h1>
                 </Link>
-                <Link to="/jefferson-cipher">
-                    <h3>Jefferson Cipher</h3>
+                <Link to="/ciphers">
+                    <h3>Ciphers</h3>
                 </Link>
                 <Link to="/about">
                     <h3>About</h3>
