@@ -4,9 +4,8 @@ const Home = () => {
 
     return(
         <div className='home'>
-            <h2>Home</h2>
+            <h2>Welcome to Qoding Aqitivity's Ciphers WebApp!</h2>
         </div>
-        
     )
 };
 
