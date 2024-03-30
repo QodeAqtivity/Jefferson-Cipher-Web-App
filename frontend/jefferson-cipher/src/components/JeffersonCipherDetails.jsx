@@ -39,16 +39,36 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
         document.body.removeChild(link);
     };
 
+    //https://stackoverflow.com/questions/17428587/transposing-a-2d-array-in-javascript
+    function transposeAndFormat() {
+        let wheelSet = ''
+
+        for (let j = 0; j < jeffersonCipher.wheelSet[0].order.length; j++){ //current index on wheels
+            let horizontal = ''
+            for (let i = 0; i < jeffersonCipher.wheelSet.length; i++){ //length of message == # of wheels
+                horizontal += jeffersonCipher.wheelSet[i].order[j] + ' '; //for all wheels, at index j
+            }
+            horizontal += '\n'
+            wheelSet += horizontal;
+        }
+
+        wheelSet += '\n\n\n';
+
+        
+        for (let i = 0; i < jeffersonCipher.wheelSet.length; i++){
+            wheelSet += jeffersonCipher.wheelSet[i].id + ' ';
+        }
+
+        return wheelSet;
+        // return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+    }
+
     const handleWheelSetDownload = (event) => {
         event.preventDefault();
 
-        console.log('stak')
-        console.log(jeffersonCipher.wheelSet[0]);
-        jeffersonCipher.wheelSet[0].map((wheel) => {
-            console.log(wheel[0]);
-        })
+        const formattedWheelSet = transposeAndFormat();
 
-        const blob = new Blob([jeffersonCipher.wheelSet], {type: 'text/plain'});
+        const blob = new Blob([formattedWheelSet], {type: 'text/plain'});
 
         const url = URL.createObjectURL(blob);
 
