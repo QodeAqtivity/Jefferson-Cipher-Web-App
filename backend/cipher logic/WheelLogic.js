@@ -1,10 +1,7 @@
-// const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
-// import * as wheelbases from './WheelBase';
 const wheelbases = require('./WheelBase');
 
 const getUnencryptedIndex = (num_char) => {
     return Math.floor(Math.random() * (num_char));
-    // console.log()
 }
 
 const getEncryptedIndex = (num_char, unencrypted_index) => {
@@ -41,7 +38,6 @@ const randomFill = (currChar, unencryptedIndex, wheelbase) => {
     wheel = shuffle(wheel);
 
     let wrongIndex = wheel.indexOf(currChar);  //position of currChar from initial scramble
-    console.log(`Wrong index: ${wrongIndex}`);
 
     let wrongChar = wheel[unencryptedIndex];  //the character in the unencrypted index from initial scramble
 
@@ -49,9 +45,6 @@ const randomFill = (currChar, unencryptedIndex, wheelbase) => {
     wheel[unencryptedIndex] = currChar;
     wheel[wrongIndex] = wrongChar;
 
-    console.log(`unencrypted current character: ${currChar} @ index: ${unencryptedIndex}`);
-    // console.log("Wheel:");
-    console.log(wheel);
     return wheel;
 }
 
@@ -66,9 +59,7 @@ const randomWheelCombo = (length) => {
 
 }
 
-
 const randomGenerateWheelSet = (unencrypted) => {
-    // console.log(`The unencrypted value is: ${unencrypted}`);
     let messageLength = unencrypted.length;
 
     let wheelSet = [];
@@ -87,11 +78,7 @@ const randomGenerateWheelSet = (unencrypted) => {
         };
         wheelSet.push(wheel);
         encryptedArr.push(wheel.order[encryptedIndex]);
-        console.log('encrypted arr is: ', encryptedArr);
     }
-    
-    console.log("Wheel Set is: ");
-    console.log(wheelSet);
     
     let deliveryCombo = randomWheelCombo(messageLength);
 
@@ -99,9 +86,6 @@ const randomGenerateWheelSet = (unencrypted) => {
     while (JSON.stringify(deliveryCombo) === JSON.stringify(solutionCombo)){
         deliveryCombo = randomWheelCombo(messageLength);
     }
-
-    console.log(`Solution Combo: ${solutionCombo}`);
-    console.log(`Delivery Combo: ${deliveryCombo}`);
     
     return {
         encrypted: encryptedArr.toString(),
