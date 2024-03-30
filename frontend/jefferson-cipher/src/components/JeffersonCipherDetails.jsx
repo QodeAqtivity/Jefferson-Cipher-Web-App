@@ -42,6 +42,12 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
     const handleWheelSetDownload = (event) => {
         event.preventDefault();
 
+        console.log('stak')
+        console.log(jeffersonCipher.wheelSet[0]);
+        jeffersonCipher.wheelSet[0].map((wheel) => {
+            console.log(wheel[0]);
+        })
+
         const blob = new Blob([jeffersonCipher.wheelSet], {type: 'text/plain'});
 
         const url = URL.createObjectURL(blob);

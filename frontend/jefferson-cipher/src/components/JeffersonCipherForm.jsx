@@ -46,7 +46,6 @@ const JeffersonCipherForm = () => {
             console.log('New Jefferson Cipher Added', json);
             alert('New Jefferson Cipher Added');
         }
-
     }
 
     return (
