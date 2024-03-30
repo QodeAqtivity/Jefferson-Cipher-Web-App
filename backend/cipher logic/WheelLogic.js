@@ -6,6 +6,14 @@ const getUnencryptedIndex = (num_char) => {
     // console.log()
 }
 
+const getEncryptedIndex = (num_char, unencrypted_index) => {
+    let encrypted_index = getUnencryptedIndex(num_char);
+    if (encrypted_index === unencrypted_index){
+        encrypted_index++
+    }
+    return encrypted_index;
+} 
+
 // Fisher-Yates Unbiased Shuffle from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array?page=1&tab=scoredesc#tab-top
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
