@@ -11,6 +11,9 @@ const Navbar = () => {
                 <Link to="/jefferson-cipher">
                     <h3>Jefferson Cipher</h3>
                 </Link>
+                <Link to="/about">
+                    <h3>About</h3>
+                </Link>
             </div>
         </header>        
     )
