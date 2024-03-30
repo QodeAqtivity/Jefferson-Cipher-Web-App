@@ -3,6 +3,7 @@
 import Navbar from './Navbar';
 import CipherCreate from './CipherCreate';
 import Home from './pages/Home';
+import JeffersonCipher from './pages/JeffersonCipher';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             />
             <Route 
               path="/jefferson-cipher"
-              element={<CipherCreate />}
+              element={<JeffersonCipher />}
             />
           </Routes>
         </div>
