@@ -1,11 +1,26 @@
 import { useState } from 'react';
+import * as regexes from './../Regexes';
 
 const JeffersonCipherForm = () => {
     const [unencrypted, setUnencrypted] = useState('');
     const [error, setError] = useState('');
 
+    // input validation will be done client-side
+    const inputValidation = () => {
+        if ((unencrypted.length < 2) || (!regexes.onlyAlphaNumericAndSpaces(unencrypted))){
+            alert('Message is not valid!  Must only contain characters within set specified AND contain at least 2 characters');
+            return false;
+        }
+        return true;
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+
+        if (!inputValidation()){
+            return false;
+        }
 
         const jeffersonCipher = {unencrypted};
 
