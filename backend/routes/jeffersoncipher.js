@@ -27,7 +27,7 @@ router.get('/create', (req, res) => {
 })
 
 // CREATE a single/specific Jefferson Cipher
-router.post('/create', createJeffersonCipher);
+router.post('/', createJeffersonCipher);
 
 // DELETE a single/specific Jefferson Cipher
 router.delete('/:id', deleteJeffersonCipher);

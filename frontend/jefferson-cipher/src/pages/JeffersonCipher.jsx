@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 // components
 import JeffersonCipherDetails from './../components/JeffersonCipherDetails';
+import JeffersonCipherForm from '../components/JeffersonCipherForm';
 
 const JeffersonCipher = () => {
     const [jeffersonCiphers, setJeffersonCiphers] = useState(null);
@@ -22,12 +23,17 @@ const JeffersonCipher = () => {
     }, []); //useEffect will always render once
 
     return(
-        <div className="jeffersonCiphers">
-            {jeffersonCiphers && jeffersonCiphers.map((jeffersonCipher) => (
-                <JeffersonCipherDetails key={jeffersonCipher._id} jeffersonCipher={jeffersonCipher}/>
-                
-            ))}
+        <div className='main'>
+            <div className="jeffersonCiphers">
+                {jeffersonCiphers && jeffersonCiphers.map((jeffersonCipher) => (
+                    <JeffersonCipherDetails key={jeffersonCipher._id} jeffersonCipher={jeffersonCipher}/>
+                    
+                ))}
+            </div>  
+
+            <JeffersonCipherForm />
         </div>
+        
     )
 };
 
