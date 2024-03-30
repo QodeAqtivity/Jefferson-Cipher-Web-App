@@ -9,13 +9,10 @@ const JeffersonCipher = () => {
 
     useEffect(() => {
         const fetchJeffersonCiphers = async() => {
-            console.log('here me')
             const response = await fetch('/api/jefferson-cipher');
             const json = await response.json();
-            console.log('first');
             if (response.ok) {
                 setJeffersonCiphers(json);
-                console.log('worked');
             }
         }
 
@@ -24,7 +21,7 @@ const JeffersonCipher = () => {
 
     return(
         <div className='main'>
-            <div className="jeffersonCiphers">
+            <div className="jefferson-ciphers">
                 {jeffersonCiphers && jeffersonCiphers.map((jeffersonCipher) => (
                     <JeffersonCipherDetails key={jeffersonCipher._id} jeffersonCipher={jeffersonCipher}/>
                     
