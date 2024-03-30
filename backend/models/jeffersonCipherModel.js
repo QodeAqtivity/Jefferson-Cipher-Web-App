@@ -23,7 +23,7 @@ const jeffersonCipherSchema = new Schema({
     },
     wheelSet: {
         type: [[String]],
-        required: true
+        // required: true
     }
 }, { timestamps: true });
 

@@ -1,3 +1,5 @@
+const { randomGenerateWheelSet } = require('./../cipher logic/WheelLogic');
+
 const JeffersonCipher = require('./../models/jeffersonCipherModel');
 const mongoose = require('mongoose');
 
@@ -31,15 +33,21 @@ const getJeffersonCipher = async(req, res) => {
 
 // create a single Jefferson Cipher
 const createJeffersonCipher = async(req, res) => {
+    //input already validated client side
     console.log('hit');
-    const {unencrypted, encrypted, solutionCombo, deliveryCombo, wheelSet} = req.body;
+
+    const {unencrypted} = req.body;
+
+    const {encrypted, solutionCombo, deliveryCombo, wheelSet} = randomGenerateWheelSet(unencrypted);
 
     // add doc to db
     try {
         const jeffersonCipher = await JeffersonCipher.create({unencrypted, encrypted, solutionCombo, deliveryCombo, wheelSet});  
         res.status(200).json(jeffersonCipher);
+        console.log('Successfully Created.');
     } catch (error ) {
         res.status(400).json({error: error.message});
+        console.log("Supper Wrong~");
     }
 
     // res.json({mssg: 'POST a single/specific jefferson cipher'});

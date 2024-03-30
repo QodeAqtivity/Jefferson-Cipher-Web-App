@@ -1,5 +1,6 @@
-const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
-
+// const ALPHANUMERICWHEEL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
+// import * as wheelbases from './WheelBase';
+const wheelbases = require('./WheelBase');
 
 const getUnencryptedIndex = (num_char) => {
     return Math.floor(Math.random() * (num_char));
@@ -11,6 +12,7 @@ const getEncryptedIndex = (num_char, unencrypted_index) => {
     if (encrypted_index === unencrypted_index){
         encrypted_index++
     }
+
     return encrypted_index;
 } 
 
@@ -33,16 +35,17 @@ function shuffle(array) {
     return array;
 }
 
-const randomFill = (currChar, unencryptedIndex) => {
-    let wheel = [...ALPHANUMERICWHEEL]; //shallow copy (lodash??)
+const randomFill = (currChar, unencryptedIndex, wheelbase) => {
+    let wheel = [...wheelbase]; //shallow copy (lodash??)
 
     wheel = shuffle(wheel);
 
-    let wrongIndex = wheel.indexOf(currChar);
+    let wrongIndex = wheel.indexOf(currChar);  //position of currChar from initial scramble
     console.log(`Wrong index: ${wrongIndex}`);
 
-    let wrongChar = wheel[unencryptedIndex];
+    let wrongChar = wheel[unencryptedIndex];  //the character in the unencrypted index from initial scramble
 
+    //Swap
     wheel[unencryptedIndex] = currChar;
     wheel[wrongIndex] = wrongChar;
 
@@ -64,28 +67,35 @@ const randomWheelCombo = (length) => {
 }
 
 
-export const randomGenerateWheelSet = (unencrypted) => {
+const randomGenerateWheelSet = (unencrypted) => {
     // console.log(`The unencrypted value is: ${unencrypted}`);
     let messageLength = unencrypted.length;
 
     let wheelSet = [];
 
-    let solutionIndex = getUnencryptedIndex(37);
+    const solutionIndex = getUnencryptedIndex(wheelbases.LOWERALPHANUMERICWHEEL.length);
+    const encryptedIndex = getEncryptedIndex(wheelbases.LOWERALPHANUMERICWHEEL.length, solutionIndex);
 
-    let solutionCombo = randomWheelCombo(messageLength);
+    const solutionCombo = randomWheelCombo(messageLength);
+
+    let encryptedArr = [];
 
     for (let i = 0; i < messageLength; i++){
         let wheel = {
-            order: randomFill(unencrypted[i], solutionIndex),
-            id: solutionCombo[i],
+            order: randomFill(unencrypted[i], solutionIndex, wheelbases.LOWERALPHANUMERICWHEEL), //order of the current wheel
+            id: solutionCombo[i], //the index of the solution/unencrypted character
         };
         wheelSet.push(wheel);
+        encryptedArr.push(wheel.order[encryptedIndex]);
+        console.log('encrypted arr is: ', encryptedArr);
     }
     
     console.log("Wheel Set is: ");
     console.log(wheelSet);
     
     let deliveryCombo = randomWheelCombo(messageLength);
+
+    // this should almost never run
     while (JSON.stringify(deliveryCombo) === JSON.stringify(solutionCombo)){
         deliveryCombo = randomWheelCombo(messageLength);
     }
@@ -94,13 +104,18 @@ export const randomGenerateWheelSet = (unencrypted) => {
     console.log(`Delivery Combo: ${deliveryCombo}`);
     
     return {
-        wheelSet: JSON.stringify(wheelSet),
+        encrypted: encryptedArr.toString(),
         solutionCombo: solutionCombo.toString(),
         deliveryCombo: deliveryCombo.toString(),
+        wheelSet: JSON.stringify(wheelSet),
     }
 }
 
-export const onlyAlphaNumericAndSpaces = (unencrypted) => {
+const onlyAlphaNumericAndSpaces = (unencrypted) => {
     let regex = /^[0-9A-Za-z\s]+$/;
     return regex.test(unencrypted);
 }
+
+module.exports = { randomGenerateWheelSet,
+                   onlyAlphaNumericAndSpaces,
+                 }           
