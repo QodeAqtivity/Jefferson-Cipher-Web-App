@@ -11,32 +11,32 @@ export const onlyAlphaNumericAndSpaces = (unencrypted) => {
     return regex.test(unencrypted);
 }
 
-const onlyLowerAlphaAndSpaces = (unencrypted) => {
+export const onlyLowerAlphaAndSpaces = (unencrypted) => {
     return LOWERALPHAREGIX.test(unencrypted);
 }
 
-const onlyUpperAlphaAndSpaces = (unencrypted) => {
+export const onlyUpperAlphaAndSpaces = (unencrypted) => {
     return UPPERALPHAREGIX.test(unencrypted);
 }
 
-const onlyNumeric = (unencrypted) => {
+export const onlyNumeric = (unencrypted) => {
     return NUMERICREGIX.test(unencrypted);
 }
 
 
-const onlyAlphaAndSpaces = (unencrypted) => {
+export const onlyAlphaAndSpaces = (unencrypted) => {
     return ALPHAREGIX.test(unencrypted);
 }
 
-const onlyLowerAlphaAndNumericAndSpaces = (unencrypted) => {
+export const onlyLowerAlphaAndNumericAndSpaces = (unencrypted) => {
     return LOWERALPHANUMERICREGIX.test(unencrypted);
 }
 
-const onlyUpperAlphaAndNumericAndSpaces = (unencrypted) => {
+export const onlyUpperAlphaAndNumericAndSpaces = (unencrypted) => {
     return UPPERALPHANUMERICREGIX.test(unencrypted);
 }
 
-const onlyAlphaAndNumericAndSpaces = (unencrypted) => {
+export const onlyAlphaAndNumericAndSpaces = (unencrypted) => {
     return ALPHANUMERICREGIX.test(unencrypted);
 }
 
