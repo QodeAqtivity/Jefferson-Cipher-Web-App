@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const jeffersonCipherRoutes = require('./routes/jeffersoncipher');
+const caesarCipherRoutes = require('./routes/caesarcipher');
 const mongoose = require('mongoose');
 
 const app = express();//server / express app
@@ -17,6 +18,8 @@ app.use((req, res, next) => {
 
 // jefferson cipher routes
 app.use('/api/jefferson-cipher', jeffersonCipherRoutes);
+app.use('/api/caesar-cipher', caesarCipherRoutes);
+//app.use('/api/vigenere-cipher, vigenereCipherRoutes);
 
 // connect to mongodb
 mongoose.connect(process.env.MONGO_URI)
