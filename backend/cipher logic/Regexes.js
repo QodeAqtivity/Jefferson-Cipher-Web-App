@@ -6,7 +6,7 @@ const LOWERALPHANUMERICREGIX = /^[a-z0-9\s]+$/;
 const UPPERALPHANUMERICREGIX = /^[A-Z0-9\s]+$/;
 const ALPHANUMERICREGIX = /^[a-zA-Z0-9\s]+$/;
 
-export const onlyAlphaNumericAndSpaces = (unencrypted) => {
+const onlyAlphaNumericAndSpaces = (unencrypted) => {
     let regex = /^[0-9A-Za-z\s]+$/;
     return regex.test(unencrypted);
 }
@@ -40,3 +40,13 @@ const onlyAlphaAndNumericAndSpaces = (unencrypted) => {
     return ALPHANUMERICREGIX.test(unencrypted);
 }
 
+module.exports = {
+    onlyAlphaAndNumericAndSpaces,
+    onlyLowerAlphaAndSpaces,
+    onlyUpperAlphaAndSpaces,
+    onlyNumeric,
+    onlyAlphaAndSpaces,
+    onlyLowerAlphaAndNumericAndSpaces,
+    onlyUpperAlphaAndNumericAndSpaces,
+    onlyAlphaAndNumericAndSpaces,
+};
