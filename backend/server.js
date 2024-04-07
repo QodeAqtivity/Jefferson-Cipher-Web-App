@@ -13,6 +13,7 @@ app.use(express.json()); //checks to see if there is any body/data/message in re
 app.use((req, res, next) => {
     console.log(`Request Path: ${req.path}`);
     console.log(`Request Method: ${req.method}`);
+    // console.log(`Response is: ${res.body}`);
     next();
 });
 

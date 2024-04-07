@@ -34,7 +34,6 @@ const getJeffersonCipher = async(req, res) => {
 // create a single Jefferson Cipher
 const createJeffersonCipher = async(req, res) => {
     //input already validated client side
-    console.log('hit');
 
     const {unencrypted} = req.body;
 
@@ -47,7 +46,6 @@ const createJeffersonCipher = async(req, res) => {
         console.log('Successfully Created.');
     } catch (error ) {
         res.status(400).json({error: error.message});
-        console.log("Supper Wrong~");
     }
 
     // res.json({mssg: 'POST a single/specific jefferson cipher'});
