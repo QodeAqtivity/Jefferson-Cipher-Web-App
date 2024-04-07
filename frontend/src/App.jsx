@@ -1,3 +1,4 @@
+import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import JeffersonCipher from './pages/JeffersonCipher';
@@ -9,8 +10,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" class=' bg-black text-green-500'>
       <BrowserRouter>
+        <Header />
         <Navbar />
         <div className="pages">
           <Routes>
