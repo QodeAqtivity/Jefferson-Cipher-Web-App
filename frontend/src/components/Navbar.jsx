@@ -4,17 +4,19 @@ const Navbar = () => {
     
     return (
         <header>
-            <div className="container">
-                <Link to="/">
-                    <h1>Qoding Aqitivity Cryptic Ciphers</h1>
-                </Link>
-                <Link to="/ciphers">
-                    <h3>Ciphers</h3>
-                </Link>
-                <Link to="/about">
-                    <h3>About</h3>
-                </Link>
-            </div>
+            <nav className="main-navbar">
+                <div className="container" class="flex flex-row justify-around">
+                    <Link to="/">
+                        <h1>Home</h1>
+                    </Link>
+                    <Link to="/ciphers">
+                        <h3>Ciphers</h3>
+                    </Link>
+                    <Link to="/about">
+                        <h3>About</h3>
+                    </Link>
+                </div>
+            </nav>
         </header>        
     )
 }
