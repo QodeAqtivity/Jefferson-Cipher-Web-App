@@ -1,5 +1,4 @@
-import Navbar from './Navbar';
-import CipherCreate from './CipherCreate';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import JeffersonCipher from './pages/JeffersonCipher';
 import VigenereCipher from './pages/VigenereCipher';
