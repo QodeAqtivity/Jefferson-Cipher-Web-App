@@ -13,5 +13,14 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  // },
+  // css: {
+  //   postcss: {
+  //     plugins: {
+  //       tailwindcss: {},
+  //       autoprefixer: {},
+  //     }
+  //   }
+  // }
   }
 })
