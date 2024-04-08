@@ -10,7 +10,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App" class=' bg-black text-green-500'>
+    <div className="App" class='h-screen w-screen bg-black text-green-500'>
       <BrowserRouter>
         <Header />
         <Navbar />
