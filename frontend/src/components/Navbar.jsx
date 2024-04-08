@@ -4,8 +4,8 @@ const Navbar = () => {
     
     return (
 
-        <nav className="main-navbar">
-            <div className="container" class="flex flex-row justify-around">
+        <nav className="main-navbar" class='border border-solid rounded-lg border-green-500 mb-5'>
+            <div className="container" class="flex flex-row justify-around italic text-xl font-bold">
                 <Link to="/">
                     <h1>Home</h1>
                 </Link>
