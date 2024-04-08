@@ -85,12 +85,30 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
     }
 
     return (
-        <div className="jefferson-cipher-details">
-            <h3>Encrypted String: {jeffersonCipher.encrypted.replaceAll(',', '')}</h3>
-            <p><strong>Delivery Combo: </strong>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</p>
-            <button id="downloadWheelSet" onClick={(event) => handleWheelSetDownload(event)}>Download WheelSet</button>
-            <button id="downloadDeliveryCombo" onClick={(event) => handleDeliveryComboDownload(event)}>Download Delivery/Encrypted Combo</button>
-            <button id="downloadSolutionCombo" onClick={(event) => handleSolutionComboDownload(event)}>Download Solution Combo</button>
+        <div className="jefferson-cipher-card" class='border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96'>
+            <div class='mb-4'>
+                <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted.replaceAll(',', '')}</h3>
+                <p><strong>Delivery Combo: </strong><em>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</em></p>
+            </div>
+            
+            <div className="buttons" class='flex justify-evenly'>
+                <button 
+                    id="downloadWheelSet" 
+                    onClick={(event) => handleWheelSetDownload(event)}
+                    class='border border-solid rounded-lg border-green-500 p-1.5 italic'
+                >Download WheelSet</button>
+                <button 
+                    id="downloadDeliveryCombo" 
+                    onClick={(event) => handleDeliveryComboDownload(event)}
+                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                >Download Delivery/Encrypted Combo</button>
+                <button 
+                    id="downloadSolutionCombo" 
+                    onClick={(event) => handleSolutionComboDownload(event)}
+                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'   
+                >Download Solution Combo</button>
+            </div>
+            
         </div>
     )
 }

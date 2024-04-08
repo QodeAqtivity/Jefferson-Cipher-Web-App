@@ -20,14 +20,14 @@ const JeffersonCipher = () => {
     }, []); //useEffect will always render once
 
     return(
-        <div className='main'>
+        <div className='main' class='flex justify-between mx-5'>
             <div className="jefferson-ciphers">
                 {jeffersonCiphers && jeffersonCiphers.map((jeffersonCipher) => (
                     <JeffersonCipherDetails key={jeffersonCipher._id} jeffersonCipher={jeffersonCipher}/>
                     
                 ))}
             </div>  
-
+                
             <JeffersonCipherForm />
         </div>
         

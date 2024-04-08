@@ -49,42 +49,55 @@ const JeffersonCipherForm = () => {
     }
 
     return (
-        <form className='create' onSubmit={handleSubmit}>
-            <h3>Create New Jefferson Cipher</h3>
-            <label for="message">Message</label>
-            {/* <input type="text" id="message"></input> */}
-            <textarea 
-                value={unencrypted} 
-                onChange={(event) => setUnencrypted(event.target.value)} 
-                id="message" 
-                name="message" 
-                required
-            ></textarea>
-            <button 
-                onClick={handleSubmit}
-            >Encrypt</button>
-            <br />
-            <input 
-                type="radio" 
-                id="Self-Generate" 
-                name="testname"
-            ></input> 
-            <label 
-                for='Self-Generate'
-            >Self Generate Wheel Set</label>
-            <br />
-            <input 
-                type="radio" 
-                id="Random-Generate" 
-                name="testname"
-            ></input>
-            <label for='Random-Generate'>Randomly Generated Wheel Set</label>
+        <form className='create' onSubmit={handleSubmit} class='flex border border-solid rounded-lg border-green-500 p-5 mr-5 max-h-64 min-w-max'>
+            <div class='flex flex-col mr-10'>
+                <h3 class='text-xl font-bold self-center'>Create Jefferson Cipher</h3>
+                <label for="message" class='italic'>Message</label>
+                <textarea 
+                    value={unencrypted} 
+                    onChange={(event) => setUnencrypted(event.target.value)} 
+                    id="message" 
+                    name="message" 
+                    required
+                    class='mb-3 bg-gray-800'
+                ></textarea>
+                <button 
+                    onClick={handleSubmit}
+                    class='border border-solid rounded-lg border-green-500 p-2 font-bold'
+                >Encrypt</button>
+            </div>
+            
+            <div class='flex flex-col justify-between border border-solid rounded-lg border-green-500 p-2'>
+                <div class='flex flex-col'>
+                    <h3 class='self-center font-bold italic'>Options</h3>
+                    <div>
+                        <input 
+                            type="radio" 
+                            id="Self-Generate" 
+                            name="testname"
+                        ></input> 
+                        <label 
+                            for='Self-Generate'
+                        >Self Generate Wheel Set</label>
+                        <br />
+                        <input 
+                            type="radio" 
+                            id="Random-Generate" 
+                            name="testname"
+                        ></input>
+                        <label for='Random-Generate'>Randomly Generated Wheel Set</label>
+                        <br />
+                        
+                        
+                    </div>
 
-            <br />
-            {/* {unencrypted && <button id="downloadUnencrypted">Download Unencrypted Message</button>} */}
-            {/* {encrypted && <button id="downloadWheelSet">Download WheelSet</button>}
-            {encrypted && <button id="downloadDeliveryCombo" onClick={(event) => handleDeliveryComboDownload(event)}>Download Delivery/Encrypted Combo</button>}
-            {encrypted && <button id="downloadSolutionCombo" onClick={(event) => handleSolutionComboDownload(event)}>Download Solution Combo</button>} */}
+                </div>
+
+                <button
+                    class='border border-solid rounded-lg border-green-500 p-2 font-bold'
+                >Advanced</button>
+
+            </div>
 
             {error && <div className='error'>{error}</div>}
         </form>
