@@ -66,8 +66,13 @@ const randomGenerateWheelSet = (unencrypted) => {
 
     const solutionIndex = getUnencryptedIndex(wheelbases.LOWERALPHANUMERICWHEEL.length);
     const encryptedIndex = getEncryptedIndex(wheelbases.LOWERALPHANUMERICWHEEL.length, solutionIndex);
-
-    const solutionCombo = randomWheelCombo(messageLength);
+    let solutionCombo = randomWheelCombo(messageLength);
+    // const solutionCombo = randomWheelCombo(messageLength);
+    let deliveryCombo = []
+    // this should almost never run
+    // while (JSON.stringify(deliveryCombo) === JSON.stringify(solutionCombo)){
+    //     deliveryCombo = randomWheelCombo(messageLength);
+    // }
 
     let encryptedArr = [];
 
@@ -77,15 +82,36 @@ const randomGenerateWheelSet = (unencrypted) => {
             id: solutionCombo[i], //the index of the solution/unencrypted character
         };
         wheelSet.push(wheel);
-        encryptedArr.push(wheel.order[encryptedIndex]);
+        // the wheelSet is in the solutionCombo order and you will be able to see the message by scanning for it going down the rows
+        // encryptedArr.push(wheel.order[encryptedIndex]);
     }
-    
-    let deliveryCombo = randomWheelCombo(messageLength);
 
-    // this should almost never run
-    while (JSON.stringify(deliveryCombo) === JSON.stringify(solutionCombo)){
-        deliveryCombo = randomWheelCombo(messageLength);
+    wheelSet = shuffle(wheelSet);
+
+    for (let i = 0; i < messageLength; i++){
+        deliveryCombo.push(wheelSet[i].id);
+        encryptedArr.push(wheelSet[i].order[encryptedIndex]);
     }
+    // wheelSet.map((wheel) => {deliveryCombo.push(wheel.id)});
+
+    // console.log(`deliverycombo is: ${deliveryCombo}`)
+    
+    // let solutionCombo = [...deliveryCombo];
+
+
+    // for (let i = 0; i < deliveryCombo.length; i++){
+    //     console.log(`wheel num is: ${deliveryCombo[i]}`)
+    //     console.log(`curr char ${unencrypted[deliveryCombo[i]]}`)
+    //     let wheel = {
+    //         order: randomFill(unencrypted[deliveryCombo[i]], solutionIndex, wheelbases.LOWERALPHANUMERICWHEEL),
+    //         id: deliveryCombo[i],
+    //     }
+    //     wheelSet.push(wheel)
+    //     encryptedArr.push(wheel.order[encryptedIndex]);
+    //     solutionCombo[i] = unencrypted.indexOf(unencrypted[deliveryCombo[i]])
+    // }
+
+    console.log(solutionIndex)
     
     return {
         encrypted: encryptedArr.toString(),
