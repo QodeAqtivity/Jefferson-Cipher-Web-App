@@ -83,7 +83,6 @@ const randomGenerateWheelSet = (unencrypted) => {
         };
         wheelSet.push(wheel);
         // the wheelSet is in the solutionCombo order and you will be able to see the message by scanning for it going down the rows
-        // encryptedArr.push(wheel.order[encryptedIndex]);
     }
 
     wheelSet = shuffle(wheelSet);
@@ -92,26 +91,6 @@ const randomGenerateWheelSet = (unencrypted) => {
         deliveryCombo.push(wheelSet[i].id);
         encryptedArr.push(wheelSet[i].order[encryptedIndex]);
     }
-    // wheelSet.map((wheel) => {deliveryCombo.push(wheel.id)});
-
-    // console.log(`deliverycombo is: ${deliveryCombo}`)
-    
-    // let solutionCombo = [...deliveryCombo];
-
-
-    // for (let i = 0; i < deliveryCombo.length; i++){
-    //     console.log(`wheel num is: ${deliveryCombo[i]}`)
-    //     console.log(`curr char ${unencrypted[deliveryCombo[i]]}`)
-    //     let wheel = {
-    //         order: randomFill(unencrypted[deliveryCombo[i]], solutionIndex, wheelbases.LOWERALPHANUMERICWHEEL),
-    //         id: deliveryCombo[i],
-    //     }
-    //     wheelSet.push(wheel)
-    //     encryptedArr.push(wheel.order[encryptedIndex]);
-    //     solutionCombo[i] = unencrypted.indexOf(unencrypted[deliveryCombo[i]])
-    // }
-
-    console.log(solutionIndex)
     
     return {
         encrypted: encryptedArr.toString(),
