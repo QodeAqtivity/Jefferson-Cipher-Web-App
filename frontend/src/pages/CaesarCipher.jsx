@@ -20,7 +20,7 @@ const CaesarCipher = () => {
     }, []); //useEffect will always render once
 
     return(
-        <div className='main'>
+        <div className='caesar-cipher' class='flex justify-between mx-5'>
             <div className="jefferson-ciphers">
                 {caesarCiphers && caesarCiphers.map((caesarCipher) => (
                     <CaesarCipherDetails key={caesarCipher._id} caesarCipher={caesarCipher}/>
