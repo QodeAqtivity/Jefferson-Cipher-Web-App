@@ -13,6 +13,14 @@ const jeffersonCipherSchema = new Schema({
         type: String,
         required: true
     },
+    solutionIndex: {
+        type: Number,
+        required: true
+    },
+    encryptedIndex: {
+        type: Number,
+        required: true
+    },
     solutionCombo: {
         type: String,
         required: true
@@ -23,7 +31,7 @@ const jeffersonCipherSchema = new Schema({
     },
     wheelSet: {
         type: [],
-        // required: true
+        required: true
     }
 }, { timestamps: true });
 
