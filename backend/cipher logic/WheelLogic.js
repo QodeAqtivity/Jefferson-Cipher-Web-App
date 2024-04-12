@@ -94,6 +94,8 @@ const randomGenerateWheelSet = (unencrypted) => {
     
     return {
         encrypted: encryptedArr.toString(),
+        solutionIndex: solutionIndex,
+        encryptedIndex: encryptedIndex,
         solutionCombo: solutionCombo.toString(),
         deliveryCombo: deliveryCombo.toString(),
         wheelSet: wheelSet,
