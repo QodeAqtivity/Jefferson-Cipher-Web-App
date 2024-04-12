@@ -37,11 +37,11 @@ const createJeffersonCipher = async(req, res) => {
 
     const {unencrypted} = req.body;
 
-    const {encrypted, solutionCombo, deliveryCombo, wheelSet} = randomGenerateWheelSet(unencrypted);
+    const {encrypted, solutionIndex, encryptedIndex, solutionCombo, deliveryCombo, wheelSet} = randomGenerateWheelSet(unencrypted);
 
     // add doc to db
     try {
-        const jeffersonCipher = await JeffersonCipher.create({unencrypted, encrypted, solutionCombo, deliveryCombo, wheelSet});  
+        const jeffersonCipher = await JeffersonCipher.create({unencrypted, encrypted, solutionIndex, encryptedIndex, solutionCombo, deliveryCombo, wheelSet});  
         res.status(200).json(jeffersonCipher);
         console.log('Successfully Created.');
     } catch (error ) {
