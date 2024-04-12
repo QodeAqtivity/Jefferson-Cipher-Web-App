@@ -91,9 +91,11 @@ const randomGenerateWheelSet = (unencrypted) => {
         deliveryCombo.push(wheelSet[i].id);
         encryptedArr.push(wheelSet[i].order[encryptedIndex]);
     }
+
+    encrypted = encryptedArr.toString().replaceAll(',', '');
     
     return {
-        encrypted: encryptedArr.toString(),
+        encrypted: encrypted,
         solutionIndex: solutionIndex,
         encryptedIndex: encryptedIndex,
         solutionCombo: solutionCombo.toString(),

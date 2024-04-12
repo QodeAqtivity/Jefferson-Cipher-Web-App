@@ -87,7 +87,7 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
     return (
         <div className="jefferson-cipher-card" class='border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96'>
             <div class='mb-4'>
-                <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted.replaceAll(',', '')}</h3>
+                <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted}</h3>
                 <p><strong>Delivery Combo: </strong><em>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</em></p>
             </div>
             
