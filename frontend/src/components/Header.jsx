@@ -9,7 +9,7 @@ const Header = () => {
         <div
          className="header" class='flex justify-around font-bold text-5xl py-5'>
             <Link to='/'>
-                <h1>QODING AQTIVITY'S CIPHERS</h1>
+                <h1>QRYPTIQ AQTIVITIES</h1>
             </Link>
             
         </div>
