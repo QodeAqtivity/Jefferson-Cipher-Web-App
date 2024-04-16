@@ -7,6 +7,7 @@ import VigenereCipher from './pages/VigenereCipher';
 import CaesarCipher from './pages/CaesarCipher';
 import About from './pages/About';
 import Ciphers from './pages/Ciphers';
+import Donate from './pages/Donate';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
             <Route
               path="/about"
               element={<About />}
+            />
+            <Route
+              path='/donate'
+              element={<Donate />}
             />
           </Routes>
         </div>
