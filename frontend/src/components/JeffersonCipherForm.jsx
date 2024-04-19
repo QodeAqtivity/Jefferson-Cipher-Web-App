@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import * as regexes from './../Regexes';
+import { useJeffersonCiphersContext } from '../hooks/useJeffersonCiphersContext';
 
 const JeffersonCipherForm = () => {
+    const { dispatch } = useJeffersonCiphersContext();
     const [unencrypted, setUnencrypted] = useState('');
     const [error, setError] = useState('');
 
@@ -45,6 +47,7 @@ const JeffersonCipherForm = () => {
             setError('');
             console.log('New Jefferson Cipher Added', json);
             alert('New Jefferson Cipher Added');
+            dispatch({type: 'CREATE_JEFFERSON_CIPHER', payload: json});
         }
     }
 

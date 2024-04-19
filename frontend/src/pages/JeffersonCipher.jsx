@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
+import { useJeffersonCiphersContext } from '../hooks/useJeffersonCiphersContext';
 
 // components
 import JeffersonCipherDetails from './../components/JeffersonCipherDetails';
 import JeffersonCipherForm from '../components/JeffersonCipherForm';
 
 const JeffersonCipher = () => {
-    const [jeffersonCiphers, setJeffersonCiphers] = useState(null);
+    // const [jeffersonCiphers, setJeffersonCiphers] = useState(null);
+
+    const { jeffersonCiphers, dispatch } = useJeffersonCiphersContext();
 
     useEffect(() => {
         const fetchJeffersonCiphers = async() => {
             const response = await fetch('/api/jefferson-cipher');
             const json = await response.json();
             if (response.ok) {
-                setJeffersonCiphers(json);
+                // setJeffersonCiphers(json);
+                dispatch({type:'SET_JEFFERSON_CIPHERS', payload: json});
             }
         }
 
