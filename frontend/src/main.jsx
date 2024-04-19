@@ -2,14 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
+// import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
-    <JeffersonCiphersContextProvider>
+    {/* <JeffersonCiphersContextProvider> */}
       <App />
-    </JeffersonCiphersContextProvider>
+    {/* </JeffersonCiphersContextProvider> */}
 
     
   </React.StrictMode>,

@@ -9,6 +9,9 @@ import About from './pages/About';
 import Ciphers from './pages/Ciphers';
 import Donate from './pages/Donate';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
+
+
 
 function App() {
   return (
@@ -28,7 +31,11 @@ function App() {
             />
             <Route 
               path="/ciphers/jefferson-cipher"
-              element={<JeffersonCipher />}
+              element={
+                <JeffersonCiphersContextProvider>
+                  <JeffersonCipher />    
+                </JeffersonCiphersContextProvider>
+              }
             />
             <Route
                 path="/ciphers/vigenere-cipher"
