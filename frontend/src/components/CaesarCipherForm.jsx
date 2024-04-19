@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as regexes from '../Regexes';
 
-const CaesarCipher = () => {
+const CaesarCipherForm = (props) => {
     const [unencrypted, setUnencrypted] = useState('');
     const [shift, setShift] = useState(0);
     let regex = null;
@@ -49,6 +49,7 @@ const CaesarCipher = () => {
             setError('');
             console.log('New Caesar Cipher Added', json);
             alert('New Caesar Cipher Added');
+            props.setcc([json, ...props.cc])
         }
     };
 
@@ -183,4 +184,4 @@ const CaesarCipher = () => {
     )
 };
 
-export default CaesarCipher;
+export default CaesarCipherForm;

@@ -28,7 +28,7 @@ const CaesarCipher = () => {
                 ))}
             </div>  
 
-            <CaesarCipherForm />
+            <CaesarCipherForm cc={caesarCiphers} setcc={setCaesarCiphers}/>
         </div>
         
     )
