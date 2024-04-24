@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import * as regexes from '../Regexes';
+import { useCaesarCiphersContext } from '../hooks/useCaesarsCipherContext';
 
 const CaesarCipherForm = (props) => {
+    const { dispatch } = useCaesarCiphersContext();
     const [unencrypted, setUnencrypted] = useState('');
     const [shift, setShift] = useState(0);
     let regex = null;
@@ -49,7 +51,8 @@ const CaesarCipherForm = (props) => {
             setError('');
             console.log('New Caesar Cipher Added', json);
             alert('New Caesar Cipher Added');
-            props.setcc([json, ...props.cc])
+            dispatch({type: 'CREATE_CAESAR_CIPHER', payload: json});
+            // props.setcc([json, ...props.cc])
         }
     };
 

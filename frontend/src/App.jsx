@@ -10,6 +10,7 @@ import Ciphers from './pages/Ciphers';
 import Donate from './pages/Donate';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
+import { CaesarCiphersContextProvider } from './context/CaesarCiphersContext.jsx';
 
 
 
@@ -43,7 +44,12 @@ function App() {
             />
             <Route
                 path="/ciphers/caesar-cipher"
-                element={<CaesarCipher />}
+                element={
+                <CaesarCiphersContextProvider>
+                  <CaesarCipher />
+                </CaesarCiphersContextProvider>
+                
+              }
             />
 
             <Route
