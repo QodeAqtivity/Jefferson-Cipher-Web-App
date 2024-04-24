@@ -1,3 +1,4 @@
+import { useJeffersonCiphersContext } from '../hooks/useJeffersonCiphersContext';
 
 const JeffersonCipherDetails = ({ jeffersonCipher }) => {
 
@@ -84,32 +85,56 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
         document.body.removeChild(link);
     }
 
+    const { dispatch } = useJeffersonCiphersContext();
+
+    const handleDelete = async() => {
+        const response = await fetch('/api/jefferson-cipher/' + jeffersonCipher._id, {
+            method: 'DELETE'
+        });
+        
+        const json = await response.json();
+
+        if (response.ok) {
+            dispatch({type: 'DELETE_JEFFERSON_CIPHER', payload: json});
+        }
+    }
+
     return (
-        <div className="jefferson-cipher-card" class='border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96'>
-            <div class='mb-4'>
-                <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted}</h3>
-                <p><strong>Delivery Combo: </strong><em>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</em></p>
+        <div className="border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96 flex justify-between">
+            <div className="jefferson-cipher-card" class=''>
+                <div class='p-2 mb-5'>
+                    <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted}</h3>
+                    <p><strong>Delivery Combo: </strong><em>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</em></p>
+                </div>
+                
+                <div className="buttons" class='flex  justify-evenly mb-2'>
+                    <button 
+                        id="downloadWheelSet" 
+                        onClick={(event) => handleWheelSetDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic'
+                    >Download WheelSet</button>
+                    <button 
+                        id="downloadDeliveryCombo" 
+                        onClick={(event) => handleDeliveryComboDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                    >Download Delivery/Encrypted Combo</button>
+                    <button 
+                        id="downloadSolutionCombo" 
+                        onClick={(event) => handleSolutionComboDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'   
+                    >Download Solution Combo</button>
+                </div>
+                
             </div>
-            
-            <div className="buttons" class='flex justify-evenly'>
-                <button 
-                    id="downloadWheelSet" 
-                    onClick={(event) => handleWheelSetDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic'
-                >Download WheelSet</button>
-                <button 
-                    id="downloadDeliveryCombo" 
-                    onClick={(event) => handleDeliveryComboDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
-                >Download Delivery/Encrypted Combo</button>
-                <button 
-                    id="downloadSolutionCombo" 
-                    onClick={(event) => handleSolutionComboDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'   
-                >Download Solution Combo</button>
-            </div>
-            
+
+            <span 
+                class="material-symbols-outlined"
+                onClick={(event) => handleDelete(event)}
+            >
+                delete
+            </span>
         </div>
+        
     )
 }
 

@@ -1,3 +1,4 @@
+import { useCaesarCiphersContext } from "../hooks/useCaesarsCipherContext";
 
 const caesarCipherDetails = ({ caesarCipher }) => {
 
@@ -58,31 +59,55 @@ const caesarCipherDetails = ({ caesarCipher }) => {
         document.body.removeChild(link);
     };
 
+    const { dispatch } = useCaesarCiphersContext()
+
+    const handleDelete = async () => {
+        const response = await fetch('/api/caesar-cipher/' + caesarCipher._id, {
+            method: 'DELETE'
+        });
+
+        const json = await response.json();
+
+        if (response.ok) {
+            dispatch({type: 'DELETE_CAESAR_CIPHER', payload: json});
+        }
+    };
+
     
     return (
-        <div className="caesar-cipher-card" class='border border-solid rounded-lg border-green-500 p-4 mb-5'>
-            <div className="caesar-cipher-details" class='p-2 mb-5'>
-                <h3 class='font-bold'>Encrypted String: {caesarCipher.encrypted.replaceAll(',', '')}</h3>
-                {/* <h3>{caesarCipher.encrypted.replaceAll(',', '')}</h3> */}
+        <div className="border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96 flex justify-between">
+            <div className="caesar-cipher-card" class=''>
+                <div className="caesar-cipher-details" class='p-2 mb-5'>
+                    <h3 class='font-bold'>Encrypted String: {caesarCipher.encrypted.replaceAll(',', '')}</h3>
+                    {/* <h3>{caesarCipher.encrypted.replaceAll(',', '')}</h3> */}
+                </div>
+                <div className="buttons" class='flex justify-evenly mb-2'>
+                    <button 
+                        id="downloadUnencrypted" 
+                        onClick={(event) => handleUnencryptedDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic'
+                    >Download Unencrypted</button>
+                    <button 
+                        id="downloadEncrypted" 
+                        onClick={(event) => handleEncryptedDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                    >Download Encrypted</button>
+                    <button
+                        id="downloadCaesarShift" 
+                        onClick={(event) => handleCipherShiftDownload(event)}
+                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                    >Download Cipher Shift</button>
+                </div>
             </div>
-            <div className="buttons" class='flex justify-evenly mb-2'>
-                <button 
-                    id="downloadUnencrypted" 
-                    onClick={(event) => handleUnencryptedDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic'
-                >Download Unencrypted</button>
-                <button 
-                    id="downloadEncrypted" 
-                    onClick={(event) => handleEncryptedDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
-                >Download Encrypted</button>
-                <button
-                    id="downloadCaesarShift" 
-                    onClick={(event) => handleCipherShiftDownload(event)}
-                    class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
-                >Download Cipher Shift</button>
-            </div>
+
+            <span 
+                class="material-symbols-outlined"
+                onClick={(event) => handleDelete(event)}
+            >
+                delete
+            </span>
         </div>
+       
     )
 }
 
