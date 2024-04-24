@@ -1,4 +1,5 @@
 import { useCaesarCiphersContext } from "../hooks/useCaesarsCipherContext";
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 
 const caesarCipherDetails = ({ caesarCipher }) => {
 
@@ -79,6 +80,7 @@ const caesarCipherDetails = ({ caesarCipher }) => {
             <div className="caesar-cipher-card" class=''>
                 <div className="caesar-cipher-details" class='p-2 mb-5'>
                     <h3 class='font-bold'>Encrypted String: {caesarCipher.encrypted.replaceAll(',', '')}</h3>
+                    <p><em>{formatDistanceToNow(new Date(caesarCipher.createdAt), { addSuffix: true })}</em></p>
                     {/* <h3>{caesarCipher.encrypted.replaceAll(',', '')}</h3> */}
                 </div>
                 <div className="buttons" class='flex justify-evenly mb-2'>

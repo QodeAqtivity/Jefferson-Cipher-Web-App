@@ -1,4 +1,5 @@
 import { useJeffersonCiphersContext } from '../hooks/useJeffersonCiphersContext';
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 
 const JeffersonCipherDetails = ({ jeffersonCipher }) => {
 
@@ -105,6 +106,7 @@ const JeffersonCipherDetails = ({ jeffersonCipher }) => {
                 <div class='p-2 mb-5'>
                     <h3><strong>Encrypted String:</strong> {jeffersonCipher.encrypted}</h3>
                     <p><strong>Delivery Combo: </strong><em>{jeffersonCipher.deliveryCombo.replaceAll(',', ' ')}</em></p>
+                    <p><em>{formatDistanceToNow(new Date(jeffersonCipher.createdAt), { addSuffix: true })}</em></p>
                 </div>
                 
                 <div className="buttons" class='flex  justify-evenly mb-2'>
