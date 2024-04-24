@@ -6,6 +6,7 @@ const JeffersonCipherForm = () => {
     const { dispatch } = useJeffersonCiphersContext();
     const [unencrypted, setUnencrypted] = useState('');
     const [error, setError] = useState('');
+    const [emptyFields, setEmptyFields] = useState([]);
 
     // input validation will be done client-side
     const inputValidation = () => {
@@ -40,11 +41,13 @@ const JeffersonCipherForm = () => {
         if (!response.ok) {
             console.log('Failed to Add New Jefferson Cipher', json);            
             setError(json.error);
-            alert('Failed to Add New Jefferson Cipher')
+            setEmptyFields(json.emptyFields);
+            // alert('Failed to Add New Jefferson Cipher')
         }
         else{
             setUnencrypted('');
             setError('');
+            setEmptyFields([]);
             console.log('New Jefferson Cipher Added', json);
             alert('New Jefferson Cipher Added');
             dispatch({type: 'CREATE_JEFFERSON_CIPHER', payload: json});
@@ -62,7 +65,7 @@ const JeffersonCipherForm = () => {
                     id="message" 
                     name="message" 
                     required
-                    class='mb-3 bg-gray-800'
+                    class={`mb-3 border bg-gray-800 ${emptyFields.includes('unencrypted') ? 'border-red-700' : ''}`}
                 ></textarea>
                 <button 
                     onClick={handleSubmit}

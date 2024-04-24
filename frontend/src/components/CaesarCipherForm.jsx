@@ -8,6 +8,7 @@ const CaesarCipherForm = (props) => {
     const [shift, setShift] = useState(0);
     let regex = null;
     const [error, setError] = useState('');
+    const [emptyFields, setEmptyFields] = useState([]);
 
     const inputValidation = () => {
         console.log(`regex is: ${regex}`);
@@ -44,11 +45,15 @@ const CaesarCipherForm = (props) => {
         if (!response.ok) {
             console.log('Failed to Add New Caesar Cipher', json);            
             setError(json.error);
-            alert('Failed to Add New Caesar Cipher')
+            setEmptyFields(json.emptyFields);
+            console.log(emptyFields);
+            // alert('Failed to Add New Caesar Cipher');
+
         }
         else{
             setUnencrypted('');
             setError('');
+            setEmptyFields([]);
             console.log('New Caesar Cipher Added', json);
             alert('New Caesar Cipher Added');
             dispatch({type: 'CREATE_CAESAR_CIPHER', payload: json});
@@ -69,7 +74,7 @@ const CaesarCipherForm = (props) => {
                     id="message" 
                     name="message" 
                     required
-                    class='mb-3 bg-gray-800' 
+                    class={`mb-3 border bg-gray-800 ${emptyFields.includes('unencrypted') ? 'border-red-700' : ''}`}
                 ></textarea>
                 <label for="shift" class='italic'>Shift Amount</label>
                 <input 
@@ -77,7 +82,7 @@ const CaesarCipherForm = (props) => {
                     min="0" 
                     step="1"
                     onChange={(event) => setShift(event.target.value)}
-                    class='mb-5 bg-gray-800'
+                    class={`mb-3 border bg-gray-800 ${emptyFields.includes('shift') ? 'border-red-700' : ''}`}
                 >
                 </input>
                 <button 
@@ -182,7 +187,7 @@ const CaesarCipherForm = (props) => {
                 >Advanced</button>
             </div>
             
-           
+            {emptyFields && <p>{`${error}: ${emptyFields.map((field) => field)}`}</p>}
         </div>
     )
 };
