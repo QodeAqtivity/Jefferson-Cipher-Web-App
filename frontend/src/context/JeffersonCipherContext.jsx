@@ -1,7 +1,5 @@
 import { createContext, useReducer } from 'react';
 
-
-
 export const JeffersonCiphersContext = createContext()
 
 // We are not interacting with the DB at all over here, we are merely keeping the local state in-sync with the data in the DB
@@ -17,6 +15,11 @@ export const jeffersonCiphersReducer = (state, action) => { // state is previous
         case 'CREATE_JEFFERSON_CIPHER':
             return {
                 jeffersonCiphers: [action.payload, ...state.jeffersonCiphers] //adding new 
+            }
+
+        case 'DELETE_JEFFERSON_CIPHER':
+            return {
+                jeffersonCiphers: state.jeffersonCiphers.filter((jeffersonCipher) => jeffersonCipher._id !== action.payload._id) //the payload (of the action) is the jefferson cipher that was deleted/removed from DB
             }
 
         default: 
