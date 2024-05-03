@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt'); //uses salt
+const validator = require('validator');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -52,6 +53,52 @@ const userSchema = new Schema({
     //     required: true
     // }
 });
+
+// static signup method
+
+userSchema.statics.signup = async function (email, password) {
+
+    // validation
+    if (!email || !password){
+        if (!email && !password) {
+            throw Error('You must provide an email and password.');
+        } else if (!email) {
+            throw Error('You must provide an email.');
+        } else if (!password) {
+            throw Error('You must provide a password.');
+        }
+    } 
+
+    if (!validator.isEmail(email)) {
+        throw Error('You did not provide a valid email.');
+    }
+
+    if (!validator.isStrongPassword(password)) {
+        throw Error('You did not provide a strong enough password.');
+    }
+
+    const exists = await this.findOne({ email });
+
+    if (exists) {
+        throw Error('Email already used for a different account!');
+    }
+
+    const salt = await bcrypt.genSalt(10); // random string added : number of rounds 
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await this.create({ 
+        email, 
+        password: hash, 
+        name: 'fakename', 
+        ciphers: [] // array of objects
+    });
+
+    return user;
+};
+
+userSchema.statics.login = async() => {
+
+};
 
 module.exports = mongoose.model('User', userSchema);
 
