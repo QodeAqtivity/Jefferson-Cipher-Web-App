@@ -96,8 +96,31 @@ userSchema.statics.signup = async function (email, password) {
     return user;
 };
 
-userSchema.statics.login = async() => {
+userSchema.statics.login = async function(email, password) {
+    // validation
+    if (!email || !password){
+        if (!email && !password) {
+            throw Error('You must provide an email and password.');
+        } else if (!email) {
+            throw Error('You must provide an email.');
+        } else if (!password) {
+            throw Error('You must provide a password.');
+        }
+    } 
 
+    const user = await this.findOne({ email });
+
+    if (!user) {
+        throw Error('An account with that email does not exist!');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password); //password is the plaintext version that the user is currently providing, user.password is the (salt) hashed (correct) password stored on the document
+    
+    if (!passwordMatch) {
+        throw Error('Incorrect password for this account!');
+    }
+
+    return user;
 };
 
 module.exports = mongoose.model('User', userSchema);
