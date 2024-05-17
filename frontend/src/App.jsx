@@ -8,6 +8,8 @@ import CaesarCipher from './pages/CaesarCipher';
 import About from './pages/About';
 import Ciphers from './pages/Ciphers';
 import Donate from './pages/Donate';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
 import { CaesarCiphersContextProvider } from './context/CaesarCiphersContext.jsx';
@@ -25,6 +27,14 @@ function App() {
             <Route
               path="/" //homepage route
               element={<Home />}  
+            />
+            <Route 
+              path="/login"
+              element={<Login />}
+            />
+            <Route
+              path="/signup"
+              element={<Signup />}
             />
             <Route 
               path="/ciphers"
