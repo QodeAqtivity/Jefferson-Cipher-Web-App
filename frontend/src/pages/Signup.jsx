@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useSignup } from '../hooks/useSignup';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const {signup, error, isLoading} = useSignup(); 
 
     const handleSignUp = async (event) => {
         event.preventDefault(); //default is refereshing page
-        if (password !== confirmPassword) {
-
-        }
-
         console.log(email, password)
+        // if (password !== confirmPassword) {
+
+        // }
+
+        await signup(email, password);
+
+        
     }
 
     return (
@@ -41,11 +45,11 @@ const Signup = () => {
                     value={confirmPassword}
                 />
                 <div className="pt-3 flex justify-center space-x-4">
-                    <button className='border p-2 rounded-xl border-green-500'>Sign Up</button>                   
+                    <button disabled={isLoading} className='border p-2 rounded-xl border-green-500'>Sign Up</button>                   
                 </div>
                 
             </div>
-            
+            {error && <div className='error'>{error}</div>}
         </form>
     )
 }
