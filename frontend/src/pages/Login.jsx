@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLogin } from '../hooks/useLogin';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login, isLoading, error } = useLogin();
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        console.log(email, password)
+        // console.log(email, password);
+        await login(email, password);
     }
 
     return (
@@ -31,13 +34,15 @@ const Login = () => {
                 />
 
                 <div className="pt-3 flex justify-center space-x-4">
-                    <button className='border rounded-xl border-green-500 p-2'>Login</button>
+                    <button disabled={isLoading} className='border rounded-xl border-green-500 p-2' onClick={handleLogin}>Login</button>
                     <Link to='/signup'>
-                        <button className='border p-2 rounded-xl border-green-500'>Sign Up</button>
+                        <button disabled={isLoading} className='border p-2 rounded-xl border-green-500'>Sign Up</button>
                     </Link>
                 </div>
                 
             </div>
+
+            {error && <div className='error'>{error}</div>}
             
         </form>
     )
