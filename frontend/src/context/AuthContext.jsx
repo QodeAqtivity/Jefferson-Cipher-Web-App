@@ -5,30 +5,31 @@ export const AuthContext = createContext();
 export const authReducer = (state, action) => {
 
     switch (action.type) {
-        case '':
+        case 'LOGIN':
             return {
-
+                user: action.payload
             }
-        case '': 
+        case 'LOGOUT': 
             return {
-
-            }
-        case '':
-            return {
-
+                user: null
             }
         default: 
+            console.log('Not a valid action.  State remains unchanged.');
+            return state
+            
     }
 };
 
 export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, {
-
+        user: null
     });
+
+    console.log('AuthContext state: ', state); // logged everytime state changes
 
     return(
         <AuthContext.Provider value= { {...state, dispatch} } >
-            {children}
+            {children} 
         </AuthContext.Provider>
-    )
+    ) // wraps root app component, while root app component surrounds all other components
 };
