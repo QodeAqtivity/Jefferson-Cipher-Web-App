@@ -7,8 +7,7 @@ const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleSignUp = async (event) => {
-        event.preventDefault();
-
+        event.preventDefault(); //default is refereshing page
         if (password !== confirmPassword) {
 
         }
@@ -42,9 +41,7 @@ const Signup = () => {
                     value={confirmPassword}
                 />
                 <div className="pt-3 flex justify-center space-x-4">
-                    <Link to='/signup'>
-                        <button className='border p-2 rounded-xl border-green-500'>Sign Up</button>
-                    </Link>
+                    <button className='border p-2 rounded-xl border-green-500'>Sign Up</button>                   
                 </div>
                 
             </div>
