@@ -15,6 +15,10 @@ const caesarCipherSchema = new Schema({
         type: String,
         required: true,
     },
+    accessibility: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Caesar Cipher', caesarCipherSchema);
