@@ -2,7 +2,14 @@ const { caesarShiftEncryption } = require('./../cipher logic/CaesarShift');
 const CaesarCipher = require('./../models/caesarCipherModel');
 const mongoose = require('mongoose');
 
-// get ALL caesar ciphers
+// get ALL public caesar ciphers
+const getAllCaesarCiphersPublic = async(req, res) => {
+    const caesarCiphersPublic = await CaesarCipher.find({"accessibility" : "public"}).sort({createdAt: -1});
+
+    res.status(200).json(caesarCiphersPublic);
+}
+
+// get ALL caesar ciphers (Admin)
 const getAllCaesarCiphers = async(req, res) => {
     const caesarCiphers = await CaesarCipher.find({}).sort({createdAt: -1});
 
@@ -74,6 +81,7 @@ const updateCaesarCipher = async(req, res) => {
 };
 
 module.exports = {
+    getAllCaesarCiphersPublic,
     getAllCaesarCiphers,
     getCaesarCipher,
     createCaesarCipher,
