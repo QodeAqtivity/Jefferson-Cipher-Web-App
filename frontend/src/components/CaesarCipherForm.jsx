@@ -1,19 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as regexes from '../Regexes';
 import { useCaesarCiphersContext } from '../hooks/useCaesarsCipherContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const CaesarCipherForm = (props) => {
     const { dispatch } = useCaesarCiphersContext();
     const [unencrypted, setUnencrypted] = useState('');
     const [shift, setShift] = useState(0);
     let regex = null;
+    const [accessibility, setAccessibility] = useState('');
     const [error, setError] = useState('');
     const [emptyFields, setEmptyFields] = useState([]);
+    const { user, dispatch: authDispatch } = useAuthContext();
+    // const [ _user, set_User] = useState(user);
 
     const inputValidation = () => {
         console.log(`regex is: ${regex}`);
-        if ((unencrypted.length < 1) || (!regex(unencrypted))){
-            alert('Message is not valid!  Must only contain characters within set specified AND contain at least 2 characters');
+        let alertMessage = 'Message is not valid!';
+        // if ((unencrypted.length < 1) || (!regex(unencrypted))){
+        if (unencrypted.length < 1) {
+            alertMessage += '  Must only contain characters within set specified AND contain at least 2 characters';
+            alert(alertMessage);
+            return false;
+        } else if (emptyFields.length > 0) {
+            for (emptyField in emptyFields) {
+                // conditional for unencrypted length
+                // conditional for shift
+                // conditional for regex
+                console.log('for loop :', emptyField)
+            }
             return false;
         }
         return true;
@@ -21,43 +36,110 @@ const CaesarCipherForm = (props) => {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
-        console.log(unencrypted)
-        console.log(regex)
-
-        // if (!inputValidation()) {
-        //     return false;
-        // }
-
-
-        const caesarCipher = {unencrypted, shift};
-
-        const response = await fetch('/api/caesar-cipher',
-        {
-            method: 'POST',
-            body: JSON.stringify(caesarCipher),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const json = await response.json();
-
-        if (!response.ok) {
-            console.log('Failed to Add New Caesar Cipher', json);            
-            setError(json.error);
-            setEmptyFields(json.emptyFields);
-            console.log(emptyFields);
-            // alert('Failed to Add New Caesar Cipher');
-
+        if (!inputValidation()) {
+            return;
         }
-        else{
-            setUnencrypted('');
-            setError('');
-            setEmptyFields([]);
-            console.log('New Caesar Cipher Added', json);
-            alert('New Caesar Cipher Added');
-            dispatch({type: 'CREATE_CAESAR_CIPHER', payload: json});
-            // props.setcc([json, ...props.cc])
+        let validUser = user;
+
+        if (true) {
+            console.log('Parameters begin');
+            console.log(unencrypted);
+            console.log(shift);
+            console.log(regex);
+            console.log('Parameters end');
+        }
+        
+        const caesarCipherCreateNonPublic = async () => {
+
+            const response = await fetch('/api/caesar-cipher',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(caesarCipher),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                }
+            );
+        
+            const json = await response.json();
+    
+            if (!response.ok) { //could be a number of reasons, bad input, miscommunication with server, invalid JWT, etc
+                console.log('Failed to Add New Caesar Cipher', json);            
+                setError(json.error);
+
+                if (json.emptyFields == undefined) {
+                    setEmptyFields([]);  
+                } else {
+                    setEmptyFields(json.emptyFields);
+                }
+
+                if (json.error == 'Request is not authorized (Invalid JWT)') {
+                    return -1
+                }
+            } else {
+                setUnencrypted('');
+                setError('');
+                setEmptyFields([]);
+                console.log('New Caesar Cipher Added', json);
+                alert('New Caesar Cipher Added');
+                dispatch({type: 'CREATE_CAESAR_CIPHER', payload: json});
+                // props.setcc([json, ...props.cc])
+            };
+        }
+
+        const caesarCipherCreatePublic = async() => {
+            const response = await fetch('/api/caesar-cipher/public',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(caesarCipher),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        
+            const json = await response.json();
+    
+            if (!response.ok) {
+                console.log('Failed to Add New Caesar Cipher', json);            
+                setError(json.error);
+                setEmptyFields(json.emptyFields);
+            } else {
+                setUnencrypted('');
+                setError('');
+                setEmptyFields([]);
+                console.log('New Caesar Cipher Added', json);
+                alert('New Caesar Cipher Added');
+                dispatch({type: 'CREATE_CAESAR_CIPHER', payload: json});
+                // props.setcc([json, ...props.cc])
+            }
+        }
+
+        let caesarCipher = {unencrypted, shift, accessibility};
+
+        if (accessibility != 'public' && validUser) {
+            if (await caesarCipherCreateNonPublic() == -1){
+                validUser = null; //supposed valid validUser is not valid (invalid JWT)
+                authDispatch({type: 'LOGOUT'});
+                localStorage.removeItem('user');
+                alert('Invalid JWT.  You have been logged out.');
+                return;
+            }
+        }
+
+        if (accessibility == 'public' || !validUser) {
+            setAccessibility('public');  // react state updates are async
+            // console.log('accessibility (state) should be public now but is not: ', accessibility);
+            // useEffect hook runs after state change is registered so it does not remedy issue of accessibility being changed after api call
+            // useEffect wouldn't even work here because it is in a regular JS expression, particularly a conditional.  It needs to be in a function component or a custom hook.
+            // useEffect(() => {
+            //     caesarCipher = {unencrypted, shift, accessibility};
+            //     console.log('accessibility (state) useEffect: ', accessibility);
+            //     console.log('accessibility (caesarCipher) useEffect: ', caesarCipher.accessibility);
+            // }, [accessibility]);
+            caesarCipher = {unencrypted, shift, accessibility: 'public'};
+            caesarCipherCreatePublic();
         }
     };
 
@@ -89,6 +171,36 @@ const CaesarCipherForm = (props) => {
                     onClick={handleSubmit}
                     class='border border-solid rounded-lg border-green-500 mb-5 p-2 font-bold'
                 >Encrypt</button>
+                <div>
+                    <h3>Accessibility</h3>
+                    <input
+                        type='radio'
+                        name='accessibility'
+                        value='Public'
+                        onClick={() => {
+                            setAccessibility('public');
+                        }}
+                    />
+                    <label>Public</label>
+                    <input
+                        type='radio'
+                        name='accessibility'
+                        value='Registered'
+                        onClick={() => {
+                            setAccessibility('registered');
+                        }}
+                    />
+                    <label>Registered</label>
+                    <input
+                        type='radio'
+                        name='accessibility'
+                        value='Private'
+                        onClick={() => {
+                            setAccessibility('private');
+                        }}
+                    />
+                    <label>Private</label>
+                </div>
             </div>
             
             <div className='border border-solid rounded-lg border-green-500 p-2 flex flex-col justify-between'>
