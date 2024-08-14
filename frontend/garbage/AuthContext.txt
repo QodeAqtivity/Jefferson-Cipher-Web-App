@@ -16,6 +16,87 @@ export const authReducer = (state, action) => {
         default: 
             console.log('Not a valid action.  State remains unchanged.');
             return state
+    }
+};
+
+export const AuthContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null
+    });
+
+    // console.log('AuthContextProvider Start');
+    const [localUser, setLocalUser] = useState(state.user);
+    // console.log('localUser @ initial: ', localUser);
+
+    useEffect(() => {
+        // console.log('AuthContext runEffect Start');
+
+        const checkLocalStorageUser = () => {  // this method runs on an interval
+            const currentLocalStorageUser = JSON.parse(localStorage.getItem('user')); 
+            
+            if ((localUser != null) && (currentLocalStorageUser != null)) { //global auth context has a "JWT" and local storage has a "JWT" in 'user'
+                if ((currentLocalStorageUser.email !== localUser.email) || (currentLocalStorageUser.token !== localUser.token)) {
+                    // whether or not the global auth context is correct XOR the local storage JWT is correct, we will log them out
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                    localStorage.removeItem('user');
+                } else {
+                    console.log('AuthContext UseEffect! Matching JWT between global auth context and local storage');
+                }
+            } else {
+                if ((currentLocalStorageUser == null) && (localUser == null)) {
+                    console.log('Both LocalStorage "user"/JWT and Global Auth Context are Null: Properly/Fully Logged Out');
+                } else if (currentLocalStorageUser == null) {
+                    console.log('No user/JWT in localStorage but Global Auth Context is not null: Log Out');
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                } else if (localUser == null) {
+                    console.log('Global Auth Context null but user/JWT in localStorage: Attempt to Login (frontend)');
+                    setLocalUser(currentLocalStorageUser);
+                    dispatch({type: 'LOGIN', payload: currentLocalStorageUser})
+                } else {
+                    console.log('Never Show')
+                }
+            }
+        };
+        
+        checkLocalStorageUser();
+
+        const intervalCheckLocalStorageUser = setInterval(checkLocalStorageUser, 5000);
+
+        return () => clearInterval(intervalCheckLocalStorageUser);
+    }, [localUser]);
+
+    console.log('AuthContext State Changed: ', state); // logged everytime state changes
+
+    return(
+        <AuthContext.Provider value= { {...state, dispatch} } >
+            {children} 
+        </AuthContext.Provider>
+    ) // wraps root app component, while root app component surrounds all other components
+};
+
+///
+
+
+import { createContext, useReducer, useEffect, useState } from 'react';
+
+export const AuthContext = createContext();
+
+export const authReducer = (state, action) => {
+
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                user: action.payload
+            }
+        case 'LOGOUT': 
+            return {
+                user: null
+            }
+        default: 
+            console.log('Not a valid action.  State remains unchanged.');
+            return state
             
     }
 };
