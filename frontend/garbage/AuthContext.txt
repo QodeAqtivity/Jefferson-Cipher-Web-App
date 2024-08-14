@@ -1,0 +1,304 @@
+import { createContext, useReducer, useEffect, useState } from 'react';
+
+export const AuthContext = createContext();
+
+export const authReducer = (state, action) => {
+
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                user: action.payload
+            }
+        case 'LOGOUT': 
+            return {
+                user: null
+            }
+        default: 
+            console.log('Not a valid action.  State remains unchanged.');
+            return state
+            
+    }
+};
+
+export const AuthContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null
+    });
+    console.log('AuthContextProvider Start');
+    const [localUser, setLocalUser] = useState(state.user);
+    console.log('localUser @ initial: ', localUser);
+    // const [localUser, setLocalUser] = useState(JSON.parse(localStorage.getItem('user')));
+    // above line... when refreshing page, global auth context is set back to null.  we need to ensure we are comparing localStorage to global auth context and updating global auth context accordingly
+    // const [localUser, setLocalUser] = useState(() => JSON.parse(localStorage.getItem('user')));//useState(JSON.parse(localStorage.getItem('user')));
+    //(1) setLocalUser(JSON.parse(localStorage.getItem('user')));  //causes infinite rerenders
+    //(2) let outsideUser = JSON.parse(localStorage.getItem('user'));   //constantly triggers useEffect
+
+    useEffect(() => {
+        console.log('AuthContext runEffect Start');
+
+        const checkLocalStorageUser = () => {
+            console.log('localuser: ', state.user);
+            // this method runs on an interval
+            const currentLocalStorageUser = JSON.parse(localStorage.getItem('user')); 
+            
+            if ((localUser != null) && (currentLocalStorageUser != null)) { //global auth context has a "JWT" and local storage has a "JWT" in 'user'
+                console.log('LU email & token: ', localUser.email, " & ", localUser.token);
+                console.log('user is:', state);
+                console.log('CLU email & token: ', currentLocalStorageUser.email, " & ", currentLocalStorageUser.token);
+                if ((currentLocalStorageUser.email !== localUser.email) || (currentLocalStorageUser.token !== localUser.token)) {
+                    // whether or not the global auth context is correct XOR the local storage JWT is correct, we will log them out
+                    // setLocalUser(currentLocalStorageUser);                    
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                    localStorage.removeItem('user');
+                    console.log('AuthContext UseEffect! Mismatching JWT between global auth context and local storage. Logging out!');
+                    console.log('MisMatch LU email & token: ', localUser.email, " & ", localUser.token);
+                    console.log('MisMatch CLU email & token: ', currentLocalStorageUser.email, " & ", currentLocalStorageUser.token);                
+                } else {
+                    console.log('AuthContext UseEffect! Matching JWT between global auth context and local storage');
+                }
+            } else {
+                if ((currentLocalStorageUser == null) && (localUser == null)) {
+                    console.log('Properly/Fully Logged Out');
+                    //both null, proper log out.
+                } else if (currentLocalStorageUser == null) {
+                    console.log('No user/JWT in localStorage');
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                } else if (localUser == null) {
+                    setLocalUser(currentLocalStorageUser);
+                    dispatch({type: 'LOGIN', payload: currentLocalStorageUser})
+                    console.log('new day but still me');
+                } else {
+                    console.log('Never Show')
+                }
+            }
+        };
+        
+        checkLocalStorageUser();
+
+        const intervalCheckLocalStorageUser = setInterval(checkLocalStorageUser, 5000);
+
+        // if (localUser) {
+        //     dispatch({type: 'LOGIN', payload: localUser});
+        // }
+
+        return () => clearInterval(intervalCheckLocalStorageUser);
+    }, [localUser]); //empty depedency array, only fire this useEffect once upon initial component render
+
+    console.log('AuthContext state: ', state); // logged everytime state changes
+
+    return(
+        <AuthContext.Provider value= { {...state, dispatch} } >
+            {children} 
+        </AuthContext.Provider>
+    ) // wraps root app component, while root app component surrounds all other components
+};
+
+///
+
+import { createContext, useReducer, useEffect, useState } from 'react';
+
+export const AuthContext = createContext();
+
+export const authReducer = (state, action) => {
+
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                user: action.payload
+            }
+        case 'LOGOUT': 
+            return {
+                user: null
+            }
+        default: 
+            console.log('Not a valid action.  State remains unchanged.');
+            return state
+            
+    }
+};
+
+export const AuthContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null
+    });
+    const [localUser, setLocalUser] = useState(JSON.parse(localStorage.getItem('user')));
+    // const [localUser, setLocalUser] = useState(state.user);
+    console.log('initial')
+    console.log('localUser initial: ', localUser)
+    // const [localUser, setLocalUser] = useState(() => JSON.parse(localStorage.getItem('user')));//useState(JSON.parse(localStorage.getItem('user')));
+    //(1) setLocalUser(JSON.parse(localStorage.getItem('user')));  //causes infinite rerenders
+    //(2) let outsideUser = JSON.parse(localStorage.getItem('user'));   //constantly triggers useEffect
+
+    useEffect(() => {
+        console.log('AuthContext runEffect Start');
+        const checkLocalStorageUser = () => {
+            console.log('localuser: ', state.user);
+            // this method runs on an interval
+            const currentLocalStorageUser = JSON.parse(localStorage.getItem('user')); 
+            // dispatch({type: 'LOGIN', payload: currentLocalStorageUser});
+            // dispatch({type: 'LOGIN', payload: localUser});
+           
+            if ((localUser != null) && (currentLocalStorageUser != null)) { //global auth context has a "JWT" and local storage has a "JWT" in 'user'
+                console.log('LU email & token: ', localUser.email, " & ", localUser.token);
+                console.log('user is:', state);
+                console.log('CLU email & token: ', currentLocalStorageUser.email, " & ", currentLocalStorageUser.token);
+                if ((currentLocalStorageUser.email !== localUser.email) || (currentLocalStorageUser.token !== localUser.token)) {
+                    // whether or not the global auth context is correct XOR the local storage JWT is correct, we will log them out
+                    // setLocalUser(currentLocalStorageUser);                    
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                    localStorage.removeItem('user');
+                    console.log('AuthContext UseEffect! Mismatching JWT between global auth context and local storage. Logging out!');
+                    console.log('MisMatch LU email & token: ', localUser.email, " & ", localUser.token);
+                    console.log('MisMatch CLU email & token: ', currentLocalStorageUser.email, " & ", currentLocalStorageUser.token);                
+                } else {
+                    console.log('AuthContext UseEffect! Matching JWT between global auth context and local storage');
+                }
+            } else {
+                if ((currentLocalStorageUser == null) && (localUser == null)) {
+                    console.log('Properly/Fully Logged Out');
+                    //both null, proper log out.
+                } else if (currentLocalStorageUser == null) {
+                    console.log('No user/JWT in localStorage');
+                    setLocalUser(null);
+                    dispatch({type: 'LOGOUT'});
+                } else if (localUser == null) {
+                    setLocalUser(currentLocalStorageUser);
+                    dispatch({type: 'LOGIN', payload: currentLocalStorageUser})
+                    console.log('new day but still me');
+                } else {
+                    console.log('Never Show')
+                }
+            }
+        };
+        
+        checkLocalStorageUser();
+
+        const intervalCheckLocalStorageUser = setInterval(checkLocalStorageUser, 5000);
+
+        // if (localUser) {
+        //     dispatch({type: 'LOGIN', payload: localUser});
+        // }
+
+        return () => clearInterval(intervalCheckLocalStorageUser);
+    }, [localUser]); //empty depedency array, only fire this useEffect once upon initial component render
+
+    console.log('AuthContext state: ', state); // logged everytime state changes
+
+    return(
+        <AuthContext.Provider value= { {...state, dispatch} } >
+            {children} 
+        </AuthContext.Provider>
+    ) // wraps root app component, while root app component surrounds all other components
+};
+
+
+///
+import { createContext, useReducer, useEffect, useState } from 'react';
+
+export const AuthContext = createContext();
+
+export const authReducer = (state, action) => {
+
+    switch (action.type) {
+        case 'LOGIN':
+            return {
+                user: action.payload
+            }
+        case 'LOGOUT': 
+            return {
+                user: null
+            }
+        default: 
+            console.log('Not a valid action.  State remains unchanged.');
+            return state
+            
+    }
+};
+
+export const AuthContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null
+    });
+    const [localUser, setLocalUser] = useState(() => JSON.parse(localStorage.getItem('user')));//useState(JSON.parse(localStorage.getItem('user')));
+    //(1) setLocalUser(JSON.parse(localStorage.getItem('user')));  //causes infinite rerenders
+    //(2) let outsideUser = JSON.parse(localStorage.getItem('user'));   //constantly triggers useEffect
+
+    useEffect(() => {
+        const checkLocalStorageUser = () => {
+            const currentLocalStorageUser = JSON.parse(localStorage.getItem('user'));
+            
+            if ((localUser != null) && (currentLocalStorageUser != null)) {
+                // if (true) {
+                //     console.log('meets: ', localUser)
+                //     console.log("LU tok: ", localUser.token);
+                //     console.log("CLU tok:", currentLocalStorageUser.token);
+                //     console.log("LU email: ", localUser.email);
+                //     console.log("CLU email: ", currentLocalStorageUser.email);
+                // }
+
+                if (currentLocalStorageUser.email !== localUser.email || currentLocalStorageUser.token !== localUser.token) {
+                    setLocalUser(currentLocalStorageUser);
+                    console.log('different! invalid JWT!')
+                } else {
+                    console.log('same! valid JWT')
+                }
+
+            } else {
+                if ((currentLocalStorageUser == null) && (localUser == null)) {
+                    // console.log('peace')
+                } else if (currentLocalStorageUser == null) {
+                    // console.log('i shouldnt keep running')
+                    setLocalUser(null);
+                } else if (localUser == null) {
+                    setLocalUser(currentLocalStorageUser);
+                    // console.log('me neither')
+                } else {
+                    // console.log('ghost')
+                }
+
+                // if (true) {
+                //     if ((localStorage == null) && (currentLocalStorageUser == null)) {
+                //         //user is logged out properly
+                //         console.log('User logged out properly')
+                //     } else {
+                //         setLocalUser(currentLocalStorageUser);
+                //         console.log('one is null other is not')
+                //         if (localStorage == null) {
+                //             console.log('blam')
+                //         }
+                //         if (currentLocalStorageUser == null) {
+                //             console.log('boom')
+                //             console.log(localStorage);
+                //             console.log(currentLocalStorageUser)
+                //         }
+                //         console.log('divide')
+                //     }
+                // }
+            }
+        };
+        
+
+        checkLocalStorageUser();
+
+        const intervalCheckLocalStorageUser = setInterval(checkLocalStorageUser, 5000);
+        // setLocalUser(JSON.parse(localStorage.getItem('user'))); //stored as JSON string in LocalStorage  
+        console.log('AuthContext useEffect hook login:', localUser);
+        if (localUser) {
+            dispatch({type: 'LOGIN', payload: localUser});
+        }
+
+        return () => clearInterval(intervalCheckLocalStorageUser);
+        // state.user = localStorage.getItem('user')
+    }, [localUser]); //empty depedency array, only fire this useEffect once upon initial component render
+
+    console.log('AuthContext state: ', state); // logged everytime state changes
+
+    return(
+        <AuthContext.Provider value= { {...state, dispatch} } >
+            {children} 
+        </AuthContext.Provider>
+    ) // wraps root app component, while root app component surrounds all other components
+};
