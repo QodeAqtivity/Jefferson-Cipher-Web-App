@@ -1,5 +1,7 @@
 const express = require('express');
 const {
+    getAllCaesarCiphersPublic,
+    createCaesarCipherPublic,
     getAllCaesarCiphers,
     getCaesarCipher,
     createCaesarCipher,
@@ -9,6 +11,10 @@ const {
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
+
+router.get('/public', getAllCaesarCiphersPublic);
+
+router.post('/public', createCaesarCipherPublic);
 
 //require auth for all routes
 router.use(requireAuth); //by placing this middleware function before other functional middleware functions, we protect them from unauthorized access and use
