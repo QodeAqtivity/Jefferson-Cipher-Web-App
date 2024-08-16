@@ -129,7 +129,7 @@ const CaesarCipherForm = (props) => {
 
 
     return (
-        <div className="caesar-cipher" class='border border-solid rounded-lg border-green-500 p-5 mr-5 flex max-h-72 min-w-max' >
+        <div className="caesar-cipher" class='border border-solid rounded-lg border-green-500 p-5 mr-5 flex max-h-96 min-w-max' >
             {/* <h2 class='text-xl italics font-bold flex justify-center'>Create a Caesar Cipher</h2> */}
             <div class='flex flex-col mr-10'>
                 <h2 class='text-xl italics font-bold flex justify-center'>Create a Caesar Cipher</h2>
@@ -140,7 +140,7 @@ const CaesarCipherForm = (props) => {
                     id="message" 
                     name="message" 
                     required
-                    class={`mb-3 border bg-gray-800 ${emptyFields.includes('unencrypted') ? 'border-red-700' : ''}`}
+                    class={`mb-3 border bg-gray-800 max-h-12 ${emptyFields.includes('unencrypted') ? 'border-red-700' : ''}`}
                 ></textarea>
                 <label for="shift" class='italic'>Shift Amount</label>
                 <input 
@@ -155,8 +155,8 @@ const CaesarCipherForm = (props) => {
                     onClick={handleSubmit}
                     class='border border-solid rounded-lg border-green-500 mb-5 p-2 font-bold'
                 >Encrypt</button>
-                <div>
-                    <h3>Visibility</h3>
+                <div class=''>
+                    <h3><em>Visibility</em></h3>
                     <input
                         type='radio'
                         name='visibility'
@@ -165,7 +165,7 @@ const CaesarCipherForm = (props) => {
                             setVisibility('public');
                         }}
                     />
-                    <label>Public</label>
+                    <label class='pl-1 pr-2'>Public</label>
                     <input
                         type='radio'
                         name='visibility'
@@ -174,7 +174,7 @@ const CaesarCipherForm = (props) => {
                             setVisibility('registered');
                         }}
                     />
-                    <label>Registered</label>
+                    <label class='pl-1 pr-2'>Registered</label>
                     <input
                         type='radio'
                         name='visibility'
@@ -183,7 +183,7 @@ const CaesarCipherForm = (props) => {
                             setVisibility('private');
                         }}
                     />
-                    <label>Private</label>
+                    <label class='pl-1 pr-2'>Private</label>
                 </div>
             </div>
             
