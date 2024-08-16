@@ -12,7 +12,7 @@ const getCaesarCiphersValidUser = async(req, res) => {
     const caesarCiphers = await CaesarCipher.find(
         { $or: 
             [
-                {"user_id" : req.user},
+                {"user_id" : req.user._id},
                 {"visibility" :  
                     { $in : ["public", "registered"]}
                 }
@@ -67,7 +67,7 @@ const createCaesarCiphersInvalidUser = async(req, res) => {
 // create a single Caesar Cipher
 const createCaesarCipherValidUser = async(req, res) => {
     const { unencrypted, shift, visibility } = req.body;
-    const user_id = req.user;
+    const user_id = req.user._id;
     const { encrypted } = caesarShiftEncryption(unencrypted, shift);
 
     try {
