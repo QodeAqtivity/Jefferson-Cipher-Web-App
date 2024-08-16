@@ -6,10 +6,7 @@ const requireAuth = async (req, res, next) => {
     // verify authentication
     const { authorization } = req.headers
 
-    console.log('authorization: ', authorization);
-
     if (!authorization) {  //ensure that the request had an authorization (JWT) token with it
-        console.log('protector')
         return res.status(401).json({error: 'Authorization (JWT) token required'});
     };
 
@@ -20,7 +17,6 @@ const requireAuth = async (req, res, next) => {
 
     try {
         const { _id } = jwt.verify(token, process.env.SECRET); //returns payload from that token, specifically destructure to find _id
-        console.log('check for me: ', _id);
         req.user = await User.findOne({ _id }).select('_id'); //this authentication middleware function runs first and attaches the user property for next middleware functions
         // for clarification we are appending/attaching a user property.
         next();
