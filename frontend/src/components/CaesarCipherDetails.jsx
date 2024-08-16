@@ -1,5 +1,6 @@
 import { useCaesarCiphersContext } from "../hooks/useCaesarsCipherContext";
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const caesarCipherDetails = ({ caesarCipher }) => {
 
@@ -61,19 +62,32 @@ const caesarCipherDetails = ({ caesarCipher }) => {
     };
 
     const { dispatch } = useCaesarCiphersContext()
+    const { user } = useAuthContext();
 
     const handleDelete = async () => {
+        if (!user) {
+            return;
+        }
+
         const response = await fetch('/api/caesar-cipher/' + caesarCipher._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization' : `Bearer ${user.token}`
+            }
         });
 
         const json = await response.json();
 
         if (response.ok) {
             dispatch({type: 'DELETE_CAESAR_CIPHER', payload: json});
+        } else if (!response.ok) {
+            alert('Unable to delete Caesar Cipher!');
         }
     };
 
+    const handleReport = async() => {
+        alert('Entry Reported');
+    };
     
     return (
         <div className="border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96 flex justify-between">
@@ -102,14 +116,23 @@ const caesarCipherDetails = ({ caesarCipher }) => {
                 </div>
             </div>
 
-            <span 
-                class="material-symbols-outlined"
-                onClick={(event) => handleDelete(event)}
-            >
-                delete
-            </span>
+            {
+                (user && user.userID === caesarCipher.user_id) ? (
+                <span 
+                    class="material-symbols-outlined"
+                    onClick={(event) => handleDelete(event)}
+                >
+                    delete
+                </span>
+                ) : (
+                <span 
+                    class="material-symbols-outlined"
+                    onClick={(event) => handleReport(event)}
+                >
+                    warning
+                </span> )
+            }
         </div>
-       
     )
 }
 
