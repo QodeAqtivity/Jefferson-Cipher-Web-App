@@ -1,26 +1,27 @@
 const express = require('express');
 const {
-    getAllCaesarCiphersPublic,
-    createCaesarCipherPublic,
+    getCaesarCiphersInvalidUser,
+    getCaesarCiphersValidUser,
     getAllCaesarCiphers,
     getCaesarCipher,
-    createCaesarCipher,
+    createCaesarCiphersInvalidUser,
+    createCaesarCipherValidUser,
     deleteCaesarCipher,
-    updateCaesarCipher,
+    updateCaesarCipher
 } = require('./../controllers/caesarCipherController');
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
-router.get('/public', getAllCaesarCiphersPublic);
+router.get('/public', getCaesarCiphersInvalidUser);
 
-router.post('/public', createCaesarCipherPublic);
+router.post('/public', createCaesarCiphersInvalidUser);
 
 //require auth for all routes
 router.use(requireAuth); //by placing this middleware function before other functional middleware functions, we protect them from unauthorized access and use
 
 // GET all caesar ciphers
-router.get('/', getAllCaesarCiphers);
+router.get('/', getCaesarCiphersValidUser);
 
 // GET a single/specific caesar cipher
 router.get('/:id', getCaesarCipher);
@@ -30,7 +31,7 @@ router.get('/create', (req, res) => {
 });
 
 // POST a single/specific Caesar Cipher
-router.post('/', createCaesarCipher);
+router.post('/', createCaesarCipherValidUser);
 
 // DELETE a single/specific Caesar Cipher
 router.delete('/:id', deleteCaesarCipher);

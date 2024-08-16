@@ -2,31 +2,30 @@ const { caesarShiftEncryption } = require('./../cipher logic/CaesarShift');
 const CaesarCipher = require('./../models/caesarCipherModel');
 const mongoose = require('mongoose');
 
-// get ALL public caesar ciphers
-const getAllCaesarCiphersPublic = async(req, res) => {
-    const caesarCiphersPublic = await CaesarCipher.find({"accessibility" : "public"}).sort({createdAt: -1});
+const getCaesarCiphersInvalidUser = async(req, res) => {
+    const caesarCiphers = await CaesarCipher.find({"visibility" : "public"}).sort({createdAt: -1});
 
-    res.status(200).json(caesarCiphersPublic);
-}
+    res.status(200).json(caesarCiphers);
+};
 
-// create a single Caesar Cipher
-const createCaesarCipherPublic = async(req, res) => {
-    const { unencrypted, shift, accessibility } = req.body;
-    const { encrypted } = caesarShiftEncryption(unencrypted, shift);
+const getCaesarCiphersValidUser = async(req, res) => {
+    const caesarCiphers = await CaesarCipher.find(
+        { $or: 
+            [
+                {"user_id" : req.user},
+                {"visibility" :  
+                    { $in : ["public", "registered"]}
+                }
+            ]
+        }
+    ).sort({createdAt: -1});
 
-    try {
-        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, accessibility});
-        res.status(200).json(caesarCipher);
-        console.log('Successfully Created');
-    } catch (error) {
-        res.status(400).json({error: error.message});
-        console.log('Could not create Caesar Cipher');
-    }
+    res.status(200).json(caesarCiphers);        
 };
 
 // get ALL caesar ciphers (Admin)
 const getAllCaesarCiphers = async(req, res) => {
-    const caesarCiphers = await CaesarCipher.find({}).sort({createdAt: -1});
+    const caesarCiphers = await CaesarCipher.find().sort({createdAt: -1});
 
     res.status(200).json(caesarCiphers);
 };
@@ -49,13 +48,30 @@ const getCaesarCipher = async(req, res) => {
 };
 
 // create a single Caesar Cipher
-const createCaesarCipher = async(req, res) => {
-    const { unencrypted, shift, accessibility } = req.body;
-
+const createCaesarCiphersInvalidUser = async(req, res) => {
+    const { unencrypted, shift, visibility } = req.body;
+    const user_id = 'Invalid User';
     const { encrypted } = caesarShiftEncryption(unencrypted, shift);
 
     try {
-        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, accessibility});
+        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, visibility, user_id});
+        res.status(200).json(caesarCipher);
+        console.log('Successfully Created');
+    } catch (error) {
+        res.status(400).json({error: error.message});
+        console.log('Could not create Caesar Cipher');
+        console.log(`${error.message}`)
+    }
+};
+
+// create a single Caesar Cipher
+const createCaesarCipherValidUser = async(req, res) => {
+    const { unencrypted, shift, visibility } = req.body;
+    const user_id = req.user;
+    const { encrypted } = caesarShiftEncryption(unencrypted, shift);
+
+    try {
+        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, visibility, user_id});
         res.status(200).json(caesarCipher);
         console.log('Successfully Created');
     } catch (error) {
@@ -96,11 +112,12 @@ const updateCaesarCipher = async(req, res) => {
 };
 
 module.exports = {
-    getAllCaesarCiphersPublic,
-    createCaesarCipherPublic,
+    getCaesarCiphersInvalidUser,
+    getCaesarCiphersValidUser,
     getAllCaesarCiphers,
     getCaesarCipher,
-    createCaesarCipher,
+    createCaesarCiphersInvalidUser,
+    createCaesarCipherValidUser,
     deleteCaesarCipher,
     updateCaesarCipher
 };
