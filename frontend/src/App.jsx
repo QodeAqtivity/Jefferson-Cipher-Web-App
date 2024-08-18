@@ -13,7 +13,7 @@ import Signup from './pages/Signup';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { JeffersonCiphersContextProvider } from './context/JeffersonCipherContext.jsx';
 import { CaesarCiphersContextProvider } from './context/CaesarCiphersContext.jsx';
-
+import Thread from './pages/Thread.jsx';
 
 
 function App() {
@@ -58,7 +58,15 @@ function App() {
                 <CaesarCiphersContextProvider>
                   <CaesarCipher />
                 </CaesarCiphersContextProvider>
-                
+              }
+            />
+
+            <Route 
+              path='/ciphers/:cipherType/:cipherID'
+              element={
+                <CaesarCiphersContextProvider>
+                  <Thread/>
+                </CaesarCiphersContextProvider>
               }
             />
 
