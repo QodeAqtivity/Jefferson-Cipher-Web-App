@@ -22,6 +22,18 @@ const caesarCipherSchema = new Schema({
     user_id: {
         type: String, 
         required: true
+    }, 
+    is_comment: {
+        type: Boolean,
+        required: true
+    },
+    has_comments: {
+        type: Boolean,
+        required: true
+    },
+    parent: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 
