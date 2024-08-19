@@ -60,7 +60,7 @@ const CaesarCipher = () => {
     return(
         <div className='caesar-cipher' class='flex justify-between mx-5'>
             <div className="caesar-ciphers">
-                {caesarCiphers && caesarCiphers.map((caesarCipher) => (
+                {caesarCiphers && caesarCiphers.filter((caesarCipher) => (caesarCipher.is_comment === false && caesarCipher.parent === "None")).map((caesarCipher) => (
                     <CaesarCipherDetails key={caesarCipher._id} caesarCipher={caesarCipher}/>
                     
                 ))}
