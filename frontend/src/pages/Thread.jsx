@@ -91,7 +91,9 @@ const Thread = () => {
                     </div>
                         {
                             caesarCiphers && 
-                            caesarCiphers.filter((caesarCipher) => (caesarCipher._id !== cipherID)).map((caesarCipher) => (
+                            // code for gathering comments
+                            // comments are not the parent, have the parent as the parent, have is_comment to be true (redundant)
+                            caesarCiphers.filter((caesarCipher) => ((caesarCipher._id !== cipherID) && (caesarCipher.parent === cipherID) && (caesarCipher.is_comment === true))).map((caesarCipher) => (
                                 <div className="border border-solid rounded-log border-green-500 my-2">
                                     <h3>{caesarCipher.encrypted}</h3>
                                     {
