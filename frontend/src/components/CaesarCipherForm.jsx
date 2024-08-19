@@ -41,7 +41,7 @@ const CaesarCipherForm = (props) => {
         }
 
         let validUser = user;
-        let caesarCipher = {unencrypted, shift, visibility};
+        let caesarCipher = {unencrypted, shift, visibility, is_comment: false, has_comments: false, parent: "None"};
 
         if (validUser) {
             const caesarCipherCreateValidUser = async () => {
@@ -122,7 +122,7 @@ const CaesarCipherForm = (props) => {
             }
 
             setVisibility('public');  // react state updates are async
-            caesarCipher = {unencrypted, shift, visibility: 'public'};
+            caesarCipher = {unencrypted, shift, visibility: 'public', is_comment: false, has_comments: false, parent: "None"};
             caesarCipherCreateInvalidUser();
         }
     };
