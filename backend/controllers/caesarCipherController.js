@@ -49,12 +49,12 @@ const getCaesarCipher = async(req, res) => {
 
 // create a single Caesar Cipher
 const createCaesarCipherInvalidUser = async(req, res) => {
-    const { unencrypted, shift, visibility } = req.body;
+    const { unencrypted, shift, visibility, is_comment, has_comments, parent } = req.body;
     const user_id = 'Invalid User';
     const { encrypted } = caesarShiftEncryption(unencrypted, shift);
 
     try {
-        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, visibility, user_id});
+        const caesarCipher = await CaesarCipher.create({unencrypted, encrypted, shift, visibility, user_id,  is_comment, has_comments, parent});
         res.status(200).json(caesarCipher);
         console.log('Successfully Created');
     } catch (error) {

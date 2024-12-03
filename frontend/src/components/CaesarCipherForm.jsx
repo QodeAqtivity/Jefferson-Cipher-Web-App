@@ -95,6 +95,8 @@ const CaesarCipherForm = (props) => {
 
         if (!validUser) {
             const caesarCipherCreateInvalidUser = async() => {
+                setVisibility('public');
+
                 const response = await fetch('/api/caesar-cipher/public',
                     {
                         method: 'POST',
@@ -122,9 +124,12 @@ const CaesarCipherForm = (props) => {
                 }
             }
 
-            setVisibility('public');  // react state updates are async
-            caesarCipher = {unencrypted, shift, visibility: 'public', is_comment: false, has_comments: false, parent: "None"};
-            caesarCipherCreateInvalidUser();
+            if (await caesarCipherCreateInvalidUser() == -1) {
+                alert('Failed to create (public) cipher for non-user!');
+            }
+            // setVisibility('public');  // react state updates are async
+            // caesarCipher = {unencrypted, shift, visibility: 'public', is_comment: false, has_comments: false, parent: "None"};
+            // caesarCipherCreateInvalidUser();
         }
     };
 
