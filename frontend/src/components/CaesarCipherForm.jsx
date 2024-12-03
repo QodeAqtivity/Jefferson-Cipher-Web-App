@@ -21,6 +21,7 @@ const CaesarCipherForm = (props) => {
         if (unencrypted.length < 1) {
             alertMessage += '  Must only contain characters within set specified AND contain at least 2 characters';
             alert(alertMessage);
+            console.log('stick')
             return false;
         } else if (emptyFields.length > 0) {
             for (emptyField in emptyFields) {

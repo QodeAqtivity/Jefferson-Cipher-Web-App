@@ -17,6 +17,9 @@ router.get('/public', getCaesarCiphersInvalidUser);
 
 router.post('/public', createCaesarCiphersInvalidUser);
 
+// GET a single/specific caesar cipher
+router.get('/:id', getCaesarCipher);
+
 //require auth for all routes
 router.use(requireAuth); //by placing this middleware function before other functional middleware functions, we protect them from unauthorized access and use
 

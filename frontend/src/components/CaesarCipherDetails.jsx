@@ -1,6 +1,8 @@
 import { useCaesarCiphersContext } from "../hooks/useCaesarsCipherContext";
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { Routes, Route, Link } from 'react-router-dom';
+import Thread from '../pages/Thread';
 
 const caesarCipherDetails = ({ caesarCipher }) => {
 
@@ -88,51 +90,96 @@ const caesarCipherDetails = ({ caesarCipher }) => {
     const handleReport = async() => {
         alert('Entry Reported');
     };
+
+    const handleThread = async() => {
+        console.log('handleThread: ', caesarCipher);
+
+        const response = await fetch('/api/caesar-cipher/' + caesarCipher._id, {
+            headers: {
+                'Authorization' : `Bearer ${user.token}`
+            }
+        });
+    }
+
+    // const testid = caesarCipher._id
     
     return (
-        <div className="border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96 flex justify-between">
-            <div className="caesar-cipher-card" class=''>
-                <div className="caesar-cipher-details" class='p-2 mb-5'>
-                    <h3 class='font-bold'>Encrypted String: {caesarCipher.encrypted.replaceAll(',', '')}</h3>
-                    <p><em>{formatDistanceToNow(new Date(caesarCipher.createdAt), { addSuffix: true })}</em></p>
-                    {/* <h3>{caesarCipher.encrypted.replaceAll(',', '')}</h3> */}
+        <div>
+            {/* <Routes>
+                <Route 
+                path=":testid"
+                element={
+                    <Test />
+                }
+                />
+            </Routes> */}
+            
+            <div className="border border-solid rounded-lg border-green-500 p-4 mb-5 mr-96 flex justify-between">
+                <div className="caesar-cipher-card" class=''>
+                    <div className="caesar-cipher-details" class='p-2 mb-5'>
+                        <h3 class='font-bold'>Encrypted String: {caesarCipher.encrypted.replaceAll(',', '')}</h3>
+                        <p><em>{formatDistanceToNow(new Date(caesarCipher.createdAt), { addSuffix: true })}</em></p>
+                        {/* <h3>{caesarCipher.encrypted.replaceAll(',', '')}</h3> */}
+                    </div>
+                    <div className="buttons" class='flex justify-evenly mb-2'>
+                        <button 
+                            id="downloadUnencrypted" 
+                            onClick={(event) => handleUnencryptedDownload(event)}
+                            class='border border-solid rounded-lg border-green-500 p-1.5 italic'
+                        >Download Unencrypted</button>
+                        <button 
+                            id="downloadEncrypted" 
+                            onClick={(event) => handleEncryptedDownload(event)}
+                            class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                        >Download Encrypted</button>
+                        <button
+                            id="downloadCaesarShift" 
+                            onClick={(event) => handleCipherShiftDownload(event)}
+                            class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
+                        >Download Cipher Shift</button>
+                    </div>
                 </div>
-                <div className="buttons" class='flex justify-evenly mb-2'>
-                    <button 
-                        id="downloadUnencrypted" 
-                        onClick={(event) => handleUnencryptedDownload(event)}
-                        class='border border-solid rounded-lg border-green-500 p-1.5 italic'
-                    >Download Unencrypted</button>
-                    <button 
-                        id="downloadEncrypted" 
-                        onClick={(event) => handleEncryptedDownload(event)}
-                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
-                    >Download Encrypted</button>
-                    <button
-                        id="downloadCaesarShift" 
-                        onClick={(event) => handleCipherShiftDownload(event)}
-                        class='border border-solid rounded-lg border-green-500 p-1.5 italic ml-4'
-                    >Download Cipher Shift</button>
-                </div>
-            </div>
 
-            {
-                (user && user.userID === caesarCipher.user_id) ? (
-                <span 
-                    class="material-symbols-outlined"
-                    onClick={(event) => handleDelete(event)}
-                >
-                    delete
-                </span>
-                ) : (
-                <span 
-                    class="material-symbols-outlined"
-                    onClick={(event) => handleReport(event)}
-                >
-                    warning
-                </span> )
-            }
+                <div>
+                    {
+                        (user && user.userID === caesarCipher.user_id) ? (
+                        <div>
+
+                            <span 
+                                class="material-symbols-outlined"
+                                onClick={(event) => handleDelete(event)}
+                            >
+                                delete
+                            </span>
+                            <span 
+                                class='material-symbols-outlined'
+                                onClick={(event) => handleEdit(event)}
+                            >
+                                {/* chat_bubble */}
+                                edit
+                            </span>
+
+                        </div>
+                        ) : (
+                        <span 
+                            class="material-symbols-outlined"
+                            onClick={(event) => handleReport(event)}
+                        >
+                            warning
+                        </span> )
+                    }
+                    <span
+                        class='material-symbols-outlined'
+                        onClick={(event) => handleThread(event)}
+                    >
+                        chat_bubble
+                    </span>
+                    <Link to={`./${caesarCipher._id}`}>Go to Thread</Link>
+                </div>
+                
+            </div>
         </div>
+        
     )
 }
 
