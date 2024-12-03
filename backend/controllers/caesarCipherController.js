@@ -48,7 +48,7 @@ const getCaesarCipher = async(req, res) => {
 };
 
 // create a single Caesar Cipher
-const createCaesarCiphersInvalidUser = async(req, res) => {
+const createCaesarCipherInvalidUser = async(req, res) => {
     const { unencrypted, shift, visibility } = req.body;
     const user_id = 'Invalid User';
     const { encrypted } = caesarShiftEncryption(unencrypted, shift);
@@ -116,7 +116,7 @@ module.exports = {
     getCaesarCiphersValidUser,
     getAllCaesarCiphers,
     getCaesarCipher,
-    createCaesarCiphersInvalidUser,
+    createCaesarCipherInvalidUser,
     createCaesarCipherValidUser,
     deleteCaesarCipher,
     updateCaesarCipher

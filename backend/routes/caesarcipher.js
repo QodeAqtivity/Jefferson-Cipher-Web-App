@@ -4,7 +4,7 @@ const {
     getCaesarCiphersValidUser,
     getAllCaesarCiphers,
     getCaesarCipher,
-    createCaesarCiphersInvalidUser,
+    createCaesarCipherInvalidUser,
     createCaesarCipherValidUser,
     deleteCaesarCipher,
     updateCaesarCipher
@@ -13,9 +13,11 @@ const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
+// GET public caesar cipher posts for all users including non-users and invalid users
 router.get('/public', getCaesarCiphersInvalidUser);
 
-router.post('/public', createCaesarCiphersInvalidUser);
+// POST public caesar cipher to allow non-users and invalid users to participate
+router.post('/public', createCaesarCipherInvalidUser);
 
 // GET a single/specific caesar cipher
 router.get('/:id', getCaesarCipher);
